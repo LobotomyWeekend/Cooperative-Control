@@ -22,6 +22,6 @@ function [ASV] = innerLoopASV(ref, ASV, sim, i)
     [ASV] = vehicleDynamics(ASV, tau_u, tau_r);
     ASV.dStateHist(1,i) = ASV.dState;
     % Current state by integration
-    ASV.state = integrateState(ASV.dStateHist, sim, i);
+    ASV.state = integrateState(ASV, sim, i);
 
 end % inner loop function
