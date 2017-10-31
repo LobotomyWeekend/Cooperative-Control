@@ -2,7 +2,7 @@ function [state] = integrateState(dStateHist, sim, i)
 
 % integration by transfer function 1/s
 sys = tf(1,[1,0]);
-time = sim.time;
+time = sim.time(1:i);
 
 if i > 2
     % linear sim over time

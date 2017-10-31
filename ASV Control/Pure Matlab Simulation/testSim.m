@@ -8,13 +8,13 @@
     sim.Ts   = 0.2;
     sim.Tend = 120;
     sim.time = 0:sim.Ts:sim.Tend;
+    % waypoints
+    ref.start = [0;0];
+    ref.finish = [10;10];
     
     %% Initialize Vehicles
     % vehicle 1
     ASV1 = initializeASV(ref, sim);
-    % waypoints
-    ref.start = [0;0];
-    ref.finish = [10;10];
     
     i = 1;
     for t = sim.time
