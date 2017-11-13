@@ -7,7 +7,7 @@
 function [ASV] = innerLoopASV(ref, ASV, sim, i)
     %% CONTROLLERS
     % Heading Controller
-    headingCommand = headingController(ref.yawRef, ASV.state);
+    [headingCommand, ASV.yawIntHold] = headingController(ref.yawRef, ASV, sim);
     % Speed Controller
     [speedCommand, ASV.speedHold] = speedController(ref.uRef, ASV.state, ASV.speedHold);
 
@@ -16,12 +16,16 @@ function [ASV] = innerLoopASV(ref, ASV, sim, i)
     [RPMp, RPMs] = motorPower(headingCommand, speedCommand);
     ASV.RPM_Hist(1,i) = RPMp;
     ASV.RPM_Hist(2,i) = RPMs;
+    ASV.cmdHist(i).RPMp = RPMp;
+    ASV.cmdHist(i).RPMs = RPMs;
     % Thruster Moment from command RPM
     [tau_u, tau_r] = thrusters(RPMs, RPMp, ASV, sim, i);
+    ASV.cmdHist(i).tau_r = tau_r;
+    ASV.cmdHist(i).tau_u   = tau_u;
     % Time derivitive of state from Dynamics
     [ASV] = vehicleDynamics(ASV, tau_u, tau_r);
     ASV.dStateHist(1,i) = ASV.dState;
     % Current state by integration
-    ASV.state = integrateState(ASV, sim, i);
+    ASV.state = estimateState(ASV, sim, i);
 
 end % inner loop function

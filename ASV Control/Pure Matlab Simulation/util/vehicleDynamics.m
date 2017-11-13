@@ -28,7 +28,7 @@ ASV.dState.v_dot = 1/mv * (- mu*ASV.state.u*ASV.state.r - dv*ASV.state.v);
 ASV.dState.r_dot = 1/mr * (tau_r + muv*ASV.state.u*ASV.state.v - dr*ASV.state.r);
 
 % Kinematics
-ASV.dState.y_dot   = ASV.state.u*cosd(ASV.state.yaw) - ASV.state.v*sind(ASV.state.yaw);
-ASV.dState.x_dot   = ASV.state.u*sind(ASV.state.yaw) + ASV.state.v*cosd(ASV.state.yaw);
+ASV.dState.x_dot   = ASV.state.u*cosd(ASV.state.yaw) - ASV.state.v*sind(ASV.state.yaw);
+ASV.dState.y_dot   = ASV.state.u*sind(ASV.state.yaw) + ASV.state.v*cosd(ASV.state.yaw);
 ASV.dState.yaw_dot = ASV.state.r;
 end

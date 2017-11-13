@@ -6,7 +6,7 @@ function [speedCommand, qsi] = speedController(uRef, state, qsiold)
     KSat = 60;
 
     % Absolute Velocity
-    absVel = state.u*sin(state.yaw) + state.v*cos(state.yaw);
+    absVel = state.u*cosd(state.yaw) + state.v*sind(state.yaw);
     % Calculate Error
     err = absVel - uRef;
     qsi = qsiold + err;
