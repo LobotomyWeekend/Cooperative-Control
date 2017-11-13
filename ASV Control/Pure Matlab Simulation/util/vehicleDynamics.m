@@ -24,7 +24,7 @@ dr = - ASV.properties.N_r - ASV.properties.N_rr * abs(ASV.state.r);
 
 % State Derivatives
 ASV.dState.u_dot = 1/mu * (tau_u + mv*ASV.state.v*ASV.state.r - du*ASV.state.u);
-ASV.dState.v_dot = 1/mv * (- mu*ASV.state.u*ASV.state.r - dv*ASV.state.v);
+ASV.dState.v_dot = 1/mv * (dv*ASV.state.v);
 ASV.dState.r_dot = 1/mr * (tau_r + muv*ASV.state.u*ASV.state.v - dr*ASV.state.r);
 
 % Kinematics

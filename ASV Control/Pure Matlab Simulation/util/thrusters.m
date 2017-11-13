@@ -1,5 +1,5 @@
 %% CALCULATE THRUST AND MOMENT CAUSED BY THRUSTER PAIR
-function [tau_u, tau_r] = thrusters(RPMs, RPMp, ASV, sim, i)
+function [tau_u, tau_r, Fs, Fp] = thrusters(RPMs, RPMp, ASV, sim, i)
     % dist between motors
     l = 0.25;
     % thrust from each motor

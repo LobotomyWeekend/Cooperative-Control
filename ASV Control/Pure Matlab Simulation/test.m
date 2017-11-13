@@ -18,7 +18,8 @@ ref.finish = [0;0];
 %% Initialize Vehicles
 % vehicle 1
 yawInit = 0;
-yawFinal = 90;
+ref.yawRef = yawInit;
+yawStep = 10;
 % ASV sctruct
 ASV1 = initializeASV(ref, sim);
 % initial conditions
@@ -29,10 +30,11 @@ ASV1 = initializeASV(ref, sim);
 i = 1;
 for t = sim.time
     %% Calculate References
-    if t < 10
-        ref.yawRef = yawInit;
-    else
-        ref.yawRef = yawFinal;
+    if rem(t, 40) == 0
+        if t > sim.Tend/2
+            yawStep = - 10;
+        end
+        ref.yawRef = ref.yawRef + yawStep;
     end
     ref.uRef = 1;
 
@@ -60,4 +62,35 @@ plot([ASV1.stateHist.x],[ASV1.stateHist.y]);
 xlabel('x (m)');
 ylabel('y (m)');
 hold off;
+
+%% commands
+% figure('Name', 'Commands');
+% subplot(4,1,1);
+% hold on;
+% grid on;
+% plot(sim.time, [ASV1.cmdHist.speedCommand]);
+% plot(sim.time, [ASV1.cmdHist.headingCommand]);
+% legend('Speed Command', 'Heading Command', 'Location','best');
+% hold off;
+% subplot(4,1,2);
+% hold on;
+% grid on;
+% plot(sim.time, [ASV1.cmdHist.tau_r]);
+% plot(sim.time, [ASV1.cmdHist.tau_u]);
+% legend('tau_r', 'tau_u', 'Location','best');
+% hold off;
+% subplot(4,1,3);
+% hold on;
+% grid on;
+% plot(sim.time, [ASV1.cmdHist.RPMs]);
+% plot(sim.time, [ASV1.cmdHist.RPMp]);
+% legend('RPMs', 'RPMp', 'Location','best');
+% hold off;
+% subplot(4,1,4);
+% hold on;
+% grid on;
+% plot(sim.time, [ASV1.cmdHist.Fs]);
+% plot(sim.time, [ASV1.cmdHist.Fp]);
+% legend('Fs', 'Fp', 'Location','best');
+% hold off;
 

@@ -2,9 +2,9 @@
 % Takes current yaw and yaw rate, attempts to achive yawRef
 function [headingCommand, yawIntHold] = headingController(yawRef, ASV, sim)
 % Gain Values
-Kp = 100;
-Kd = -1900;
-Ki = 0.00;
+Kp = 1500;
+Kd = -1000;
+Ki = 0.1;
 
 % Get Error Term
 err = yawRef - ASV.state.yaw;
