@@ -8,11 +8,11 @@ Ki = 0.00;
 
 % Get Error Term
 err = yawRef - ASV.state.yaw;
-if    (err > 180) 
-     err = err - 360;
-elseif(err < -180) 
-     err = 360 + err;
-end
+% if    (err > 180) 
+%      err = err - 360;
+% elseif(err < -180) 
+%      err = 360 + err;
+% end
 
 % Integral error term
 yawIntHold = ASV.yawIntHold + err*sim.Ts;

@@ -41,22 +41,16 @@ ASV.errorHist(i) = ASV.error;
 ASV.error.yaw = yawD - ASV.state.yaw;
 
 %% Integral
-% integration is achieved with TF: 1/s
-sys = tf(1,[1,0]);
-time = sim.time(1:i);
-if i > 2
-    eInt = lsim(sys, [ASV.errorHist(1:i).e],  time);
-else
-    eInt = 0;
+if i == 1
+    ASV.error.eInt = 0;
 end
-
-ASV.error.eInt = eInt(end);
+ASV.error.eInt = ASV.error.eInt + ASV.error.e*sim.Ts;
 
 %% Provide Yaw Ref
 % gain values
 K1 =  6.0; %yaw proportional
 K2 =  10.0; %cross-track proportional
-K4 =  0.6; %integral
+K4 =  0.0; %integral
 
 % delta term
 yawDel = K1*ASV.error.yaw + K2*ASV.error.e/ref.uRef ...
