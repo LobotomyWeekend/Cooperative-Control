@@ -9,15 +9,15 @@
         % vehicle's reference values
         ASV.ref = ref;
         
-        % error structure
-        ASV.error.e = 0;
-        ASV.error.yaw = 0;
-        ASV.error.eInt = 0;
-        
+%         % error structure
+%         ASV.error.e;
+%         ASV.error.yaw;
+%         ASV.error.eInt;
+                
         % preallocations
         ASV.stateHist = ASV.state;
         ASV.speedHold = 0;
         ASV.yawIntHold = 0;
         ASV.RPM_Hist  = zeros(2,length(sim.time));
-        ASV.errorHist = ASV.error;
+%         ASV.errorHist = ASV.error;
     end
