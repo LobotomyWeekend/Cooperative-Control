@@ -10,7 +10,7 @@ state.roll  = ASV.dState.roll_dot*Ts  + ASV.state.roll;
 state.pitch = ASV.dState.pitch_dot*Ts + ASV.state.pitch;
 state.yaw   = ASV.dState.yaw_dot*Ts   + ASV.state.yaw;
     % normalize yaw to [0,360]
-    while abs(state.yaw) > 360
+    while state.yaw > 360
         flip = sign(state.yaw);
         state.yaw = state.yaw - flip*360;
     end

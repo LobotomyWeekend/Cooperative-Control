@@ -4,7 +4,8 @@ function [ref] = wayPointASV(ASV,ref)
     ku = 0.1;
     ks = 0.01;
     % margin
-    e = 1;
+    % stable if e > 0.5
+    e = 0.5;
     
     % extract information
     xD = ref.finish(1,1);
@@ -20,6 +21,6 @@ function [ref] = wayPointASV(ASV,ref)
     else
         % head to waypoint
         ref.uRef = ku * asin(d/(abs(d) + ks)) * 2/pi;
-        ref.yawRef = atan2d((yD - ASV.state.y), (xD - ASV.state.x)); 
+        ref.yawRef = atan2d((yD - ASV.state.y), (xD - ASV.state.x));
     end  
 end
