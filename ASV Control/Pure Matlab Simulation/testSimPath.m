@@ -8,12 +8,15 @@ close all;
 %% Simulation Inputs
 % time
 sim.Ts   = 0.1;
-sim.Tend = 360;
+sim.Tend = 220;
 sim.time = 0:sim.Ts:sim.Tend;
+
+% 1 = line, 2 = arc
+ref.pathType = 2; 
 
 % waypoints
 ref.start = [0;0];
-ref.finish = [1;-1];
+ref.finish = [20;0];
 
 %% Initialize Vehicles
 % vehicle 1
