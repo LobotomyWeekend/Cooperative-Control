@@ -30,12 +30,13 @@ ASV1 = initializeASV(ref, sim);
 i = 1;
 for t = sim.time
     %% Calculate References
-    if rem(t, 40) == 0
-        if t > sim.Tend/2
-            yawStep = - 10;
-        end
-        ref.yawRef = ref.yawRef + yawStep;
-    end
+%     if rem(t, 40) == 0
+%         if t > sim.Tend/2
+%             yawStep = - 10;
+%         end
+%         ref.yawRef = ref.yawRef + yawStep;
+%     end
+    ref.yawRef = -135;
     ref.uRef = 1;
 
     %% Simulate Vehicles

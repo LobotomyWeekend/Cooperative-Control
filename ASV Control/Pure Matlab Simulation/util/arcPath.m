@@ -5,21 +5,9 @@ function [yawRef, ASV] = arcPath(ASV, ref, sim, i)
     % angle of nearest point on path, forwards momentum allows for
     % progression of this command variable.
     
-    %% Process Path
-    % extract input data
-    start  = ref.start;
-    finish = ref.finish;
-    
-    % find midpoint
-    xM = (start(1,1) + finish(1,1))/2;
-    yM = (start(2,1) + finish(2,1))/2;
-    
-    % find radius
-    r  = sqrt((finish(1,1) - xM)^2 + (finish(2,1) - yM)^2);
-    
-    % find gradient
-    m  = (finish(2,1) - start(2,1)) / (finish(1,1) - start(1,1));
-    gradAngle = atand(m);
+    %% Process Path    
+    % find arc properties
+    [xM, yM, r, ~] = processArc(ref.start,ref.finish);
 
     % spoof location if circle was centred on [0,0]
     xSpoof = ASV.state.x - xM;

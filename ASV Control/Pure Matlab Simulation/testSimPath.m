@@ -52,62 +52,10 @@ end
 %% Plots
 % references and response
 plotRefValues(ASV1, ref, sim);
-
 % trajectory
-figure('Name', 'Trajectory');
-hold on; 
-grid on;
-axis('equal');
-plot([ASV1.stateHist.x],[ASV1.stateHist.y]);
-xlabel('x (m)');
-ylabel('y (m)');
-hold off; 
-
+plotTrajectory(ASV1, ref);
 % error
-figure ('Name', 'Error Values');
-subplot(2,1,1);
-hold on; 
-grid on;
-plot(sim.time, [ASV1.errorHist.e])
-legend('Cross Track', 'Location','best');
-hold off
-
-subplot(2,1,2);
-hold on;
-grid on;
-plot(sim.time, [ASV1.errorHist.yaw])
-legend('Yaw', 'Location','best');
-hold off
-
-
-%% commands
-% figure('Name', 'Commands');
-% subplot(4,1,1);
-% hold on;
-% grid on;
-% plot(sim.time, [ASV1.cmdHist.speedCommand]);
-% plot(sim.time, [ASV1.cmdHist.headingCommand]);
-% legend('Speed Command', 'Heading Command', 'Location','best');
-% hold off;
-% subplot(4,1,2);
-% hold on;
-% grid on;
-% plot(sim.time, [ASV1.cmdHist.tau_r]);
-% plot(sim.time, [ASV1.cmdHist.tau_u]);
-% legend('tau_r', 'tau_u', 'Location','best');
-% hold off;
-% subplot(4,1,3);
-% hold on;
-% grid on;
-% plot(sim.time, [ASV1.cmdHist.RPMs]);
-% plot(sim.time, [ASV1.cmdHist.RPMp]);
-% legend('RPMs', 'RPMp', 'Location','best');
-% hold off;
-% subplot(4,1,4);
-% hold on;
-% grid on;
-% plot(sim.time, [ASV1.cmdHist.Fs]);
-% plot(sim.time, [ASV1.cmdHist.Fp]);
-% legend('Fs', 'Fp', 'Location','best');
-% hold off;
+plotErrorValues(ASV1, sim);
+% internal command (useful for troubleshooting)
+% plotInternalCommands(ASV1,sim);
 

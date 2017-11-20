@@ -1,14 +1,6 @@
 function [yawRef, ASV] = straightLinePath(ASV, ref, sim, i)      
     %% Process Path
-    start = ref.start;
-    finish = ref.finish;
-
-    % gradient [m]
-    m = (finish(2,1)-start(2,1)) / (finish(1,1)-start(1,1));
-    % constant desired yaw [yawD]
-    yawD = atan2d( (finish(2,1) - start(2,1)) , (finish(1,1) - start(1,1)));
-    % y intersect [c]
-    c = start(2,1) - m*start(1,1);
+    [m, c, yawD] = processLine(ref.start,ref.finish);
 
     %% Path Error
     % find nearest point's x
