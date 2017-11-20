@@ -53,4 +53,9 @@ function [yawRef, ASV] = straightLinePath(ASV, ref, sim, i)
     yawDel = K1*ASV.error.yaw + direc*K2*crossTrack/ref.uRef ...
              + direc*K4*ASV.error.eInt;
     yawRef = yawD + yawDel;
+    
+    %% Coordination state
+    L    = sqrt((ref.finish(1,1) - ref.start(1,1))^2 +(ref.finish(2,1) - ref.start(2,1))^2);
+    Lpos = sqrt((ASV.state.x - ref.start(1,1))^2 +(ASV.state.y - ref.start(2,1))^2);
+    ASV.coOrd.gamma = Lpos/L;
 end

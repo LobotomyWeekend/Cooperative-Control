@@ -12,7 +12,7 @@ sim.Tend = 220;
 sim.time = 0:sim.Ts:sim.Tend;
 
 % 1 = line, 2 = arc
-ref.pathType = 2; 
+ref.pathType = 1; 
 
 % waypoints
 ref.start = [0;0];

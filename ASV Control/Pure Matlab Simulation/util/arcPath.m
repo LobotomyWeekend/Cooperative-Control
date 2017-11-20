@@ -50,5 +50,7 @@ function [yawRef, ASV] = arcPath(ASV, ref, sim, i)
     
     yawRef = yawD + K1*ASV.error.yaw - K2*ASV.error.e - K3*ASV.error.eInt;
     
+    %% Coordination state
+    ASV.coOrd.gamma = (180-theta)/180;
     
 end
