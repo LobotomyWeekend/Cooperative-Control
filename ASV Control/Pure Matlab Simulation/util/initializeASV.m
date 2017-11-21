@@ -9,10 +9,9 @@
         % vehicle's reference values
         ASV.ref = ref;
         
-%         % error structure
-%         ASV.error.e;
-%         ASV.error.yaw;
-%         ASV.error.eInt;
+        ASV.coOrd.gamma = 0;
+        ASV.coOrd.gammaE = 0;
+        ASV.coOrd.vcorr = 0;
                 
         % preallocations
         ASV.stateHist = ASV.state;
