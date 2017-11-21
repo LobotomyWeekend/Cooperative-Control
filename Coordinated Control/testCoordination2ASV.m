@@ -11,6 +11,9 @@ sim.Ts   = 0.1;
 sim.Tend = 500;
 sim.time = 0:sim.Ts:sim.Tend;
 
+%% Constants
+complete = 0.99;
+
 %% Initialize Vehicles
 %% VEHICLE 1
 % waypoints
@@ -48,14 +51,27 @@ ASV2 = initializeASV(ref2, sim);
 %% Simulation
 i = 1;
 for t = sim.time
-    %% Calculate Path Following References
-    % ASV 1
-    [ref1.yawRef, ASV1] = pathFollowerASV(ASV1, ref1, sim, i);
-    % ASV 2
-    [ref2.yawRef, ASV2] = pathFollowerASV(ASV2, ref2, sim, i);
+    %% Mission Incomplete  
+    if ASV1.coOrd.gamma < complete
+        [ref1.yawRef, ASV1] = pathFollowerASV(ASV1, ref1, sim, i);
+    end
+    if ASV2.coOrd.gamma < complete
+        [ref2.yawRef, ASV2] = pathFollowerASV(ASV2, ref2, sim, i);
+    end
     
-    %% Calculate Coordination Correction
-    [ref1.uRef, ref2.uRef, ASV1, ASV2] = coordination_2ASV(ASV1, ASV2, ref1, ref2);
+    if ASV1.coOrd.gamma < complete && ASV2.coOrd.gamma < complete
+        [ref1.uRef, ref2.uRef, ASV1, ASV2] = coordination_2ASV(ASV1, ASV2, ref1, ref2);
+    end
+    
+    %% Mission Complete
+    if  ASV1.coOrd.gamma >= complete
+        ref1.uRef = 0;
+        ref1.yawRef = ref1.yawRef;
+    end
+    if ASV2.coOrd.gamma >= complete
+        ref2.uRef = 0;
+        ref1.yawRef = ref1.yawRef;
+    end
     
     %% Simulate Vehicles
     % ASV 1
@@ -84,20 +100,21 @@ for t = sim.time
 end
 
 %% Plots
-% References and response
-plotRefValues(ASV1, ref1, sim);
+%% References and response
+% % plotRefValues(ASV1, ref1, sim);
 plotRefValues(ASV2, ref2, sim);
 
-% Trajectory
+%% Trajectory
 plotTrajectory(ASV1, ref1, ASV2, ref2);
 
-% Error
+%% Error
 % plotErrorValues(ASV1, sim);
 % plotErrorValues(ASV2, sim);
 
-% Internal command (useful for troubleshooting)
+%% Internal command (useful for troubleshooting)
 % plotInternalCommands(ASV1,sim);
+% plotInternalCommands(ASV2,sim);
 
-% Coordination States
+%% Coordination States
 plotCoordinationError(ASV1,ASV2, sim);
 
