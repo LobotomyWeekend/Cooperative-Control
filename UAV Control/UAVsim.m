@@ -96,4 +96,4 @@ for t = L
 end
 
 %% Plots
-plotTrajectory(pRef,posHist);
+plotUAV(pRef,posHist);

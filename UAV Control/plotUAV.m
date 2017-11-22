@@ -12,7 +12,7 @@ function plotTrajectory(pRef,posHist)
     plot3(pRef(1,:), pRef(2,:), pRef(3,:),'r--'); 
     plot3(posHist(1,:), posHist(2,:), posHist(3,:),'b');
     plot3(posHist(1,1), posHist(2,1), posHist(3,1),'x');
-    plot3(pRef(1,1), pRef(2,1), pRef(3,:),'o');     
+%     plot3(pRef(1,1), pRef(2,1), pRef(3,:),'o');     
 
     
     % label axes + title
