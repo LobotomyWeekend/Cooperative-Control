@@ -9,6 +9,9 @@ Quad.counter = 1;
 % plotting variables
 Quad.t_plot = [0:Quad.Ts:Quad.sim_time-Quad.Ts];
 
+% coordination
+Quad.gamma = 0;
+
 % Environmental Parametes
 Quad.g = 9.81;     % gravity (m/s^2)
 

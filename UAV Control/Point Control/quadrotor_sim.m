@@ -12,22 +12,26 @@ global Quad;
 global Ref;
 global sim;
 
+% constants
+complete = 0.99;
+
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 100;
+sim.Tend = 500;
 Quad.Ts = sim.Ts; 
 Quad.sim_time = sim.Tend;
 
 %% Path Variables & References
+Ref.pathType = 2;
 Ref.start = [0; 0];
-Ref.finish = [10; 10];
-Ref.uRefNominal = 1;
+Ref.finish = [10; 0];
+Ref.uRefNominal = 0.5;
 
 %% Initialize Vehicle
 quad_variables;
 quad_dynamics_nonlinear;
 
-vcorr = 0.1;
+vCorr = 0.0;
 
 %% Run The Simulation Loop
 for t = Quad.t_plot
@@ -36,7 +40,13 @@ for t = Quad.t_plot
     lookaheadPathFollowerUAV;
     
     % Coordination
-    coordinationUAV(vcorr);
+    coordinationUAV(vCorr);
+    
+    % End condition
+    if Quad.gamma >= complete
+        Quad.X_des_GF = Ref.finish(1,1);
+        Quad.Y_des_GF = Ref.finish(2,1); 
+    end
     
     % Implement Controller
     position_PID;
@@ -73,3 +83,14 @@ plot(Quad.t_plot, 10^(3)*Quad.e_plot(1:length(Quad.t_plot)));
 xlabel('time (s)');
 ylabel('cross track error (mm)');
 hold off
+
+% TEST
+figure('Name', 'TEST');
+hold on
+plot(Quad.t_plot,(Quad.X_plot(1:length(Quad.t_plot))),'r');
+plot(Quad.t_plot,(Quad.Y_plot(1:length(Quad.t_plot))),'k');
+plot(Quad.t_plot,Quad.lookahead_plot(1,1:length(Quad.t_plot)),'r--');
+plot(Quad.t_plot,Quad.lookahead_plot(2,1:length(Quad.t_plot)),'k--');
+hold off
+legend('show');
+legend('x','y','x ref', 'y ref');
