@@ -53,12 +53,15 @@ Quad.psi = Quad.psi_dot*Quad.Ts+Quad.psi;
 % Flip positive Z axis up for intuitive plotting
 Quad.Z_plot(Quad.counter) = -Quad.Z;
 Quad.Z_ref_plot(Quad.counter) = -Quad.Z_des;
+Quad.Z_dot_plot(Quad.counter) = -Quad.Z_dot;
 
 Quad.X_plot(Quad.counter) = Quad.X;
 Quad.X_ref_plot(Quad.counter) = Quad.X_des;
+Quad.X_dot_plot(Quad.counter) = Quad.X_dot;
 
 Quad.Y_plot(Quad.counter) = Quad.Y;
 Quad.Y_ref_plot(Quad.counter) = Quad.Y_des;
+Quad.Y_dot_plot(Quad.counter) = Quad.Y_dot;
 
 Quad.phi_plot(Quad.counter) = Quad.phi;
 Quad.phi_ref_plot(Quad.counter) = Quad.phi_des;

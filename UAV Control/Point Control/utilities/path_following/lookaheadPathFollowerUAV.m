@@ -1,8 +1,20 @@
 function lookaheadPathFollowerUAV
-% establish global UAV variable
+%% Setup
+% establish global and persistent variables
 global Quad;
 global Ref;
 
+% gain terms
+K1 = 10; % proportional speed
+K2 = 2.5; % proportional cross track
+
+
+%% Speed Control
+uReal = sqrt(Quad.X_dot^2 + Quad.Y_dot^2); % current absolute velocity
+uError = uReal - Ref.uRefNominal; % error
+uRef = Ref.uRefNominal - K1*uError; % new reference velocity
+
+%% Path Following
 % line = 1 / arc = 2
 switch Ref.pathType
     case 1
@@ -18,7 +30,7 @@ switch Ref.pathType
         e = sqrt((xPath - Quad.X)^2 + (yPath - Quad.Y)^2);
 
         % distance to next point in x and y
-        [dx,dy] = posChange(Ref.uRefNominal, Ref.yawD);
+        [dx,dy] = posChange(uRef, Ref.yawD);
 
         % update desired position
         Quad.X_des_GF = 1/Ref.m*(yPath + dy - Ref.c);
@@ -36,13 +48,26 @@ switch Ref.pathType
         % angular position around circle
         Quad.theta_pos = atan2d(ySpoof,xSpoof);
         
-        % cross track error
+        % closest point on path
         xD = r*cosd(Quad.theta_pos);
         yD = r*sind(Quad.theta_pos);
+        
+        %% Cross track error control
+        % cross track error
         e = sqrt((xD - xSpoof)^2 + (yD - ySpoof)^2);
-
+        
+        % update position command
+        if sqrt(xSpoof^2 + ySpoof^2) > r
+            % outside path
+            r = r - K2 * e;
+        else
+            % inside path
+            r = r + K2 * e;
+        end
+        
+        %% Update reference
         % change in theta each timestep
-        dTheta = Ref.uRefNominal/r*Quad.Ts*180/pi;
+        dTheta = uRef/r*Quad.Ts*180/pi;
         
         % update desired position
         Quad.X_des_GF = r*(cosd(Quad.theta_pos - dTheta)) + xM;
