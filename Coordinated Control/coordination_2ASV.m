@@ -1,7 +1,11 @@
 %% Coordination Controller for 2 ASVs
 % takes the coordination states of two vehicles and calculates the required
 % correction velocities, and provides this as a reference
+<<<<<<< Updated upstream
 function [uRef1, uRef2, ASV1, ASV2] = coordination_2ASV(ASV1, ASV2, ref1, ref2)
+=======
+function [vCorr1, vCorr2] = coordination_2UAV(UAV1, UAV2)
+>>>>>>> Stashed changes
     
     %% Setup
     % number of vehicles

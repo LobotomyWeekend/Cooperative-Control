@@ -1,5 +1,13 @@
-function [Quad] = quad_variables(sim)
+function [Quad] = quad_variables(sim, vehicleID, initialPosition)
     %% Initialize Quadrotor Variables
+    % vehicle parameters
+    Quad.vehicleType = "UAV";       % vehicle type UAV/ASV 
+    if nargin > 1
+        Quad.vehicleID = vehicleID; % vehicle ID [1,2,...,n]
+    else 
+        Quad.vehicleID = 1;         % standard vehicle ID
+    end
+    
     % simulation parameters
     Quad.init = 0;     % used in initilization 
     Quad.counter = 1; 
@@ -41,8 +49,15 @@ function [Quad] = quad_variables(sim)
     Quad.O4 = 0;       % Left motor speed (raidans/s)
 
     %Translational Positions
-    Quad.X = 0;        % initial position in X direction GF (m)
-    Quad.Y = 0;        % initial position in Y direction GF (m)
+    if nargin > 2
+        % given initial position
+        Quad.X = initialPosition(1,1);        % initial position in X direction GF (m)
+        Quad.Y = initialPosition(2,1);        % initial position in Y direction GF (m)
+    else 
+        % otherwise, assume [0,0]
+        Quad.X = 0;                 % initial position in X direction GF (m)
+        Quad.Y = 0;                 % initial position in Y direction GF (m)
+    end
     Quad.Z = 0;        % initial position in Z direction GF (m)
     Quad.X_BF = 0;     % initial position in X direction BF (m)
     Quad.Y_BF = 0;     % initial position in Y direction BF (m)
@@ -76,7 +91,9 @@ function [Quad] = quad_variables(sim)
 
     Quad.phi_des = 0;          % desired value of phi (radians)
     Quad.theta_des = 0;        % desired value of theta (radians)
-    Quad.psi_des = pi/6;          % desired value of psi (radians)
+    Quad.psi_des = pi/6;       % desired value of psi (radians)
+    
+    Quad.yaw_desired = 0;      % desired value of yaw in GF (degrees)
 
     % Disturbance Variables
     Quad.Z_dis = 0;            % disturbance in Z direction
