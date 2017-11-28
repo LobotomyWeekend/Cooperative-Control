@@ -1,14 +1,18 @@
-function Quad = lookaheadPathFollowerUAV(Quad, Ref)
+function Quad = lookaheadPathFollowerUAV(Quad, Ref, vcorr)
 %% Setup
 % gain terms
-K1 = 10; % proportional speed
+K1 = 0; % proportional speed
 K2 = 2.5; % proportional cross track
 
 
 %% Speed Control
 uReal = sqrt(Quad.X_dot^2 + Quad.Y_dot^2); % current absolute velocity
 uError = uReal - Ref.uRefNominal; % error
-uRef = Ref.uRefNominal - K1*uError; % new reference velocity
+uRef = Ref.uRefNominal - K1*uError + vcorr; % new reference velocity
+
+if uRef < 0
+    uRef = 0;
+end
 
 %% Path Following
 % line = 1 / arc = 2
@@ -17,6 +21,7 @@ switch Ref.pathType
         %% Straight Line Path Following
         % find path variables    
         [Ref.m, Ref.c, Ref.yawD] = processLine(Ref.start,Ref.finish);
+        Quad.yaw_desired = Ref.yawD;
 
         % find nearest point on line
         xPath = (Quad.X + Quad.Y - Ref.c)/(Ref.m + 1);
@@ -27,11 +32,18 @@ switch Ref.pathType
 
         % Calculate incrememts
         dx = sqrt(uRef^2 / ((tand(Ref.yawD))^2 + 1)) * Quad.Ts;
-        dy = sqrt(uRef^2 * (1 - 1/((tand(Ref.yawD))^1 + 1))) * Quad.Ts;
+        dy = sqrt(uRef^2 * (1 - 1/((tand(Ref.yawD))^2 + 1))) * Quad.Ts;
 
         % update desired position
         Quad.X_des_GF = 1/Ref.m*(yPath + dy - Ref.c);
         Quad.Y_des_GF = Ref.m*(xPath + dx) + Ref.c; 
+        
+        %% Coordination State
+        % length of position vector, and total path length
+        Lpos = sqrt((Ref.start(1,1) - Quad.X)^2 + (Ref.start(2,1) - Quad.Y)^2);
+        Ltot = sqrt((Ref.start(1,1) - Ref.finish(1,1))^2 + (Ref.start(2,1) - Ref.finish(2,1))^2);
+
+        Quad.gamma = Lpos/Ltot;
     
     case 2
         %% Arc Path Following
@@ -48,6 +60,13 @@ switch Ref.pathType
         % closest point on path
         xD = r*cosd(Quad.theta_pos);
         yD = r*sind(Quad.theta_pos);
+        
+        %% Coordination State
+        % current theta_pos as percentage of 180 degree total arc length
+        Quad.gamma = (180 - Quad.theta_pos)/180;
+
+        % angle of tangent to update desired position
+        Quad.yaw_desired = Quad.theta_pos - 90;
         
         %% Cross track error control
         % cross track error

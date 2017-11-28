@@ -1,7 +1,8 @@
 
 %% Simulates quadrotor dynamics and implements a control algorithm
 % Add Paths
-addpath ('utilities','-end');
+mkdir('utilities')
+addpath(genpath('utilities'))
 
 %% Initialize Workspace
 clear all;
@@ -18,12 +19,12 @@ sim.Tend = 360;
 
 %% Path Variables & References
 ref.pathType = 1;
-ref.start = [0; 0];
+ref.start = [0; 0]; % also vehicle's initial position
 ref.finish = [20; 20];
 ref.uRefNominal = 0.5;
 
 %% Initialize Vehicle
-UAV = quad_variables(sim);
+UAV = quad_variables(sim,ref.start);
 UAV = quad_dynamics_nonlinear(UAV);
 
 %% Run The Simulation Loop
