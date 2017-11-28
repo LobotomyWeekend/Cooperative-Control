@@ -1,9 +1,5 @@
-function lookaheadPathFollowerUAV
+function Quad = lookaheadPathFollowerUAV(Quad, Ref)
 %% Setup
-% establish global and persistent variables
-global Quad;
-global Ref;
-
 % gain terms
 K1 = 10; % proportional speed
 K2 = 2.5; % proportional cross track
@@ -29,8 +25,9 @@ switch Ref.pathType
         % cross track error
         e = sqrt((xPath - Quad.X)^2 + (yPath - Quad.Y)^2);
 
-        % distance to next point in x and y
-        [dx,dy] = posChange(uRef, Ref.yawD);
+        % Calculate incrememts
+        dx = sqrt(uRef^2 / ((tand(Ref.yawD))^2 + 1)) * Quad.Ts;
+        dy = sqrt(uRef^2 * (1 - 1/((tand(Ref.yawD))^1 + 1))) * Quad.Ts;
 
         % update desired position
         Quad.X_des_GF = 1/Ref.m*(yPath + dy - Ref.c);

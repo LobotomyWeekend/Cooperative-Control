@@ -1,113 +1,50 @@
 
 %% Simulates quadrotor dynamics and implements a control algorithm
 % Add Paths
-addpath utilities
+addpath ('utilities','-end');
 
 %% Initialize Workspace
 clear all;
 close all;
 clc;
 
-global Quad;
-global Ref;
-global sim;
-
 % constants
 complete = 1.0;
+vCorr = 0.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 1440;
-Quad.Ts = sim.Ts; 
-Quad.sim_time = sim.Tend;
+sim.Tend = 360;
 
 %% Path Variables & References
-Ref.pathType = 2;
-Ref.start = [0; 0];
-Ref.finish = [20; 0];
-Ref.uRefNominal = 0.5;
+ref.pathType = 1;
+ref.start = [0; 0];
+ref.finish = [20; 20];
+ref.uRefNominal = 0.5;
 
 %% Initialize Vehicle
-quad_variables;
-quad_dynamics_nonlinear;
-
-vCorr = 0.0;
+UAV = quad_variables(sim);
+UAV = quad_dynamics_nonlinear(UAV);
 
 %% Run The Simulation Loop
-for t = Quad.t_plot
+for t = UAV.t_plot
     
     % Path Follower
-    lookaheadPathFollowerUAV;
+    UAV = lookaheadPathFollowerUAV(UAV, ref);
     
     % Coordination
-    coordinationUAV(vCorr);
+    UAV = coordinationUAV(UAV, vCorr, ref);
     
     % End condition
-    if Quad.gamma >= complete
-        % go to finish
-        Quad.X_des_GF = Ref.finish(1,1);
-        Quad.Y_des_GF = Ref.finish(2,1); 
-        
-        % update error term 
-        e = sqrt((Quad.X_des_GF - Quad.X)^2 + (Quad.Y_des_GF - Quad.Y)^2);
-        Quad.e_plot(Quad.counter) = e;
-        
-        % update reference for plot
-        Quad.lookahead_plot(1,Quad.counter) = Quad.X_des_GF;
-        Quad.lookahead_plot(2,Quad.counter) = Quad.Y_des_GF;
-
-    end
+    UAV = endConditionUAV(UAV, ref, complete);
     
-    % Implement Controller
-    position_PID;
-    attitude_PID;
-    rate_PID;
-    
-    % Calculate Desired Motor Speeds
-    quad_motor_speed;
-    
-    % Update Position With The Equations of Motion
-    quad_dynamics_nonlinear; 
-    
-    Quad.init = 1;  %Ends initialization after first simulation iteration    
+    % Inner Loop Dynamics and Controllers
+    UAV = innerLoopUAV(UAV);
 end
 
 %% Plots
 % trajectory
-figure('Name', 'Trajectory');
-hold on;
-grid on;
-axis('equal');
-plot3(Quad.lookahead_plot(1,:), Quad.lookahead_plot(2,:), Quad.Z_ref_plot, '--r');
-plot3(Quad.X_plot, Quad.Y_plot, Quad.Z_plot);
-xlabel('x (m)');
-ylabel('y (m)');
-zlabel('z (m)');
-hold off;
+plotTrajectoryUAV(UAV);
 
 % Error Plot
-% process error
-uReal = sqrt(Quad.X_dot_plot.^2 + Quad.Y_dot_plot.^2);
-uError = uReal - Ref.uRefNominal;
-
-figure('Name', 'Error Terms');
-
-% cross track error
-subplot(2,1,1);
-title('Cross Track Error');
-hold on;
-grid on;
-plot(Quad.t_plot, 10^(3)*Quad.e_plot(1:length(Quad.t_plot)));
-xlabel('time (s)');
-ylabel('cross track error (mm)');
-hold off
-
-% velocity error
-subplot(2,1,2);
-title('Speed Error');
-hold on;
-grid on;
-plot(Quad.t_plot, uError(1:length(Quad.t_plot)));
-xlabel('time (s)');
-ylabel('velocity error (m/s)');
-hold off;
+plotErrorUAV(UAV, ref);
