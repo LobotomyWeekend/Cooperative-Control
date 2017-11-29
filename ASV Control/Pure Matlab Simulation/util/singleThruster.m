@@ -1,5 +1,5 @@
 %% THRUST OF ONE THRUSTER WITH GIVEN RPM
-function F = singleThruster(RPM, ASV, sim, i, j)
+function F = singleThruster(RPM, ASV, j)
              
     % From Mask
     K0 = 7.2115;
@@ -14,15 +14,14 @@ function F = singleThruster(RPM, ASV, sim, i, j)
     end
     
     % Apply inverse Laplace of TF K0/(s + K0)
-    time = sim.time(1:i);
+    time = ASV.time(1 : ASV.counter);
     sys = tf(K0, [1, K0]);
     
-    if i <= 2
+    if ASV.counter <= 2
         TF = 0;
+        ASV.RPM_plot(:,ASV.counter) = [0;0];
     else
-        hist = ASV.RPM_Hist(j, 1 : i-1);
-        hold = cat(2, hist, RPM);
-        u    = hold';
+        u    = transpose(ASV.RPM_plot(j, :));
         y    = lsim(sys, u, time);
         TF   = y(end);
     end

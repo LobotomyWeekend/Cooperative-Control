@@ -4,37 +4,21 @@
 % Time in seconds
 
 %% INNER LOOP FUNCTION
-function [ASV] = innerLoopASV(ref, ASV, sim, i)
+function ASV = innerLoopASV(ref, ASV)
     %% CONTROLLERS
     % Heading Controller
-    [headingCommand, ASV.yawIntHold] = headingController(ref.yawRef, ASV, sim);
+    ASV = headingController(ref.yawRef, ASV);
     % Speed Controller
-    [speedCommand, ASV.speedHold] = speedController(ref.uRef, ASV.state, ASV.speedHold);
-    
-    ASV.cmdHist(i).speedCommand = speedCommand;
-    ASV.cmdHist(i).headingCommand = headingCommand;
+    ASV = speedController(ASV, ref.uRef);
 
     %% VEHICLE
     % Required Motor RPM from Heading + Speed Commands
-    [RPMp, RPMs] = motorPower(headingCommand, speedCommand);
-    ASV.RPM_Hist(1,i) = RPMp;
-    ASV.RPM_Hist(2,i) = RPMs;
-    
-    ASV.cmdHist(i).RPMp = RPMp;
-    ASV.cmdHist(i).RPMs = RPMs;
-    
-    % Thruster Moment from command RPM
-    [tau_u, tau_r, Fs, Fp] = thrusters(RPMs, RPMp, ASV, sim, i);
-    
-    ASV.cmdHist(i).tau_r = tau_r;
-    ASV.cmdHist(i).tau_u = tau_u;
-    ASV.cmdHist(i).Fs = Fs;
-    ASV.cmdHist(i).Fp = Fp;
-    
-    % Time derivitive of state from Dynamics
-    [ASV] = vehicleDynamics(ASV, tau_u, tau_r);
-    ASV.dStateHist(1,i) = ASV.dState;
-    % Current state by integration
-    ASV.state = estimateState(ASV, sim, i);
+    ASV = motorPower(ASV);
+    % Resultant force and moment
+    ASV = thrusters(ASV);
+    % Vehicle Dynamics
+    ASV = vehicleDynamics(ASV);
+    % Update the state variables
+    ASV = estimateState(ASV);
 
 end % inner loop function

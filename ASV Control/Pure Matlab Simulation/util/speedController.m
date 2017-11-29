@@ -1,23 +1,32 @@
 %% Speed Controller
-function [speedCommand, qsi] = speedController(uRef, state, qsiold)
+function ASV = speedController(ASV, uRef)
     % Gain Values
     Kp = 60;
     Ki = 2;
     KSat = 60;
 
     % Absolute Velocity
-    absVel = sign(state.u)*sqrt((state.u*cosd(state.yaw))^2 + (state.v*sind(state.yaw))^2);
+    absVel = sign(ASV.u)*sqrt((ASV.u*cosd(ASV.Yaw))^2 ...
+             + (ASV.v*sind(ASV.Yaw))^2);
+    
     % Calculate Error
+    % proportional
     err = absVel - uRef;
-    qsi = qsiold + err;
+    
+    % integral
+    speed_int_hold = ASV.speed_int;
+    ASV.speed_int = ASV.speed_int + err;
     
     % Speed command w saturation [-KSat,KSat]
-    speedCommand = - Kp*err - Ki*qsi;
-    if(abs(speedCommand) >= KSat)
-       speedCommand = KSat*sign(speedCommand); 
-       qsi = qsiold;
+    ASV.speedCommand = - Kp*err - Ki*ASV.speed_int;
+    if(abs(ASV.speedCommand) >= KSat)
+        ASV.speedCommand = KSat*sign(ASV.speedCommand); 
+        ASV.speed_int = speed_int_hold;
     end
     
     % Squared output (maintain sign)
-    speedCommand = abs(speedCommand)*speedCommand;
+    ASV.speedCommand = abs(ASV.speedCommand)*ASV.speedCommand;
+    
+    % Plotting Variable
+    ASV.speedCommand_plot(ASV.counter) = ASV.speedCommand;
 end

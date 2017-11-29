@@ -4,58 +4,57 @@
 % dynamically.
 clear all;
 close all;
+clc;
 
 %% Simulation Inputs
 % time
-sim.Ts   = 0.1;
-sim.Tend = 220;
+sim.Ts   = 0.01;
+sim.Tend = 240;
 sim.time = 0:sim.Ts:sim.Tend;
 
-% 1 = line, 2 = arc
-ref.pathType = 1; 
-
 % waypoints
+ref.pathType = 2;
 ref.start = [0;0];
-ref.finish = [20;0];
+ref.finish = [10;0];
+
+% constant speed reference
+ref.uRef = 1;
 
 %% Initialize Vehicles
-% vehicle 1
-yawInit = 0;
-ref.yawRef = yawInit;
-% ASV sctruct
-ASV1 = initializeASV(ref, sim);
-% initial conditions
-[ASV1.IC, ASV.state] = initialConditions(ref, yawInit);
-
+% initial yaw value
+yawInit = 0; 
+% establish structure
+ASV1 = ASV_variables(sim, ref.start, yawInit, 1);
 
 %% Simulation
-i = 1;
-for t = sim.time
+for t = sim.time    
     %% Calculate References
-    ref.uRef = 1;
-   [ref.yawRef, ASV1] = pathFollowerASV(ASV1, ref, sim, i);
-   
-   %% Simulate Vehicles
-    % ASV 1
-    [ASV1] = innerLoopASV(ref, ASV1, sim, i);
+    [ref.yawRef, ASV1] = pathFollowerASV(ASV1, ref);
 
-    %% Save Data
-    % state history
-    ASV1.stateHist(i) = ASV1.state;
-    ASV1.errorHist(i) = ASV1.error;
-    ref.refHist.yawRef(i) = ref.yawRef;
-    ref.refHist.uRef(i) = ref.uRef;
-    i = i + 1;
+    %% Simulate Vehicles
+    % ASV 1
+    [ASV1] = innerLoopASV(ref, ASV1);
 
 end
 
-%% Plots
-% references and response
-plotRefValues(ASV1, ref, sim);
-% trajectory
-plotTrajectory(ASV1, ref);
-% error
-plotErrorValues(ASV1, sim);
-% internal command (useful for troubleshooting)
-% plotInternalCommands(ASV1,sim);
+%% Plotting
+figure('Name','Trajectory');
+hold on;
+grid on;
+plot(ASV1.X_plot, ASV1.Y_plot);
+hold off;
+
+figure('Name','Command Hist');
+hold on;
+grid on;
+plot(ASV1.time, ASV1.speedCommand_plot(1:length(ASV1.time)));
+plot(ASV1.time, ASV1.headingCommand_plot(1:length(ASV1.time)));
+legend('Speed Command','Heading Command');
+hold off;
+
+figure('Name','Cross Track Error');
+hold on;
+grid on;
+plot(ASV1.time, ASV1.error_crossTrack_plot(1:length(ASV1.time)));
+hold off
 

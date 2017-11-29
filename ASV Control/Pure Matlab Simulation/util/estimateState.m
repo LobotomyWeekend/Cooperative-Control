@@ -1,29 +1,33 @@
-function [state] = estimateState(ASV, sim, i)
+function ASV = estimateState(ASV)
 %% Setup
-Ts = sim.Ts;
+Ts = ASV.Ts;
 
 % estimate state
-state.x     = ASV.dState.x_dot*Ts     + ASV.state.x;
-state.y     = ASV.dState.y_dot*Ts     + ASV.state.y;
-state.z     = ASV.dState.z_dot*Ts     + ASV.state.z;
-state.roll  = ASV.dState.roll_dot*Ts  + ASV.state.roll;
-state.pitch = ASV.dState.pitch_dot*Ts + ASV.state.pitch;
-state.yaw   = ASV.dState.yaw_dot*Ts   + ASV.state.yaw;
-    % normalize yaw to [0,360]
-    while state.yaw > 360
-        flip = sign(state.yaw);
-        state.yaw = state.yaw - flip*360;
-    end
-state.u     = ASV.dState.u_dot*Ts     + ASV.state.u;
-state.v     = ASV.dState.v_dot*Ts     + ASV.state.v;
-state.w     = ASV.dState.w_dot*Ts     + ASV.state.w;
-state.p     = ASV.dState.p_dot*Ts     + ASV.state.p;
-state.q     = ASV.dState.q_dot*Ts     + ASV.state.q;
-state.r     = ASV.dState.r_dot*Ts     + ASV.state.r;
+ASV.X     = ASV.X_dot * Ts + ASV.X;
+ASV.Y     = ASV.Y_dot * Ts + ASV.Y;
+ASV.Z     = ASV.Z_dot * Ts + ASV.Z;
+ASV.Roll  = ASV.Roll_dot * Ts + ASV.Roll;
+ASV.Pitch = ASV.Pitch_dot * Ts + ASV.Pitch;
+ASV.Yaw   = ASV.Yaw_dot * Ts + ASV.Yaw;
 
-% initial conditions
-if i == 1
-    state = ASV.IC;
-end
+    % normalize yaw to [0,360]
+    while ASV.Yaw > 360
+        flip = sign(ASV.Yaw);
+        ASV.Yaw = ASV.Yaw - flip * 360;
+    end
+    
+ASV.u       = ASV.u_dot * Ts + ASV.u;
+ASV.v       = ASV.v_dot * Ts + ASV.v;
+ASV.w       = ASV.w_dot * Ts + ASV.w;
+ASV.p       = ASV.p_dot * Ts + ASV.p;
+ASV.q       = ASV.q_dot * Ts + ASV.q;
+ASV.r       = ASV.r_dot * Ts + ASV.r;
+
+%% Plotting variables
+% position
+ASV.X_plot(ASV.counter) = ASV.X;
+ASV.Y_plot(ASV.counter) = ASV.Y;
+ASV.Z_plot(ASV.counter) = ASV.Z;
+
 
 end

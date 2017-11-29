@@ -1,4 +1,4 @@
-function [yawRef, ASV] = arcPath(ASV, ref, sim, i)
+function [yawRef, ASV] = arcPath(ASV, ref)
     %% ARC PATH for ASV
     % Takes a start point and end point and commands the vehicle to follow
     % an arc between these points. Achieved by making the yawRef = tangent
@@ -10,8 +10,8 @@ function [yawRef, ASV] = arcPath(ASV, ref, sim, i)
     [xM, yM, r, ~] = processArc(ref.start,ref.finish);
 
     % spoof location if circle was centred on [0,0]
-    xSpoof = ASV.state.x - xM;
-    ySpoof = ASV.state.y - yM;
+    xSpoof = ASV.X - xM;
+    ySpoof = ASV.Y - yM;
     
     % angular progression around circle
     theta = atan2d(ySpoof,xSpoof);
@@ -24,33 +24,28 @@ function [yawRef, ASV] = arcPath(ASV, ref, sim, i)
     % cross track error
     xD = r*cosd(theta);
     yD = r*sind(theta);
-    ASV.error.e = sqrt((xD - xSpoof)^2 + (yD - ySpoof)^2);
+    ASV.error_crossTrack = sqrt((xD - xSpoof)^2 + (yD - ySpoof)^2);
     
     % check if above or below arc
-    if ASV.state.y < yD
+    if ASV.Y < yD
         % below, increase yaw
-        ASV.error.e = -ASV.error.e;
+        ASV.error_crossTrack = -ASV.error_crossTrack;
     end
     
     % yaw error
-    ASV.error.yaw = yawD - ASV.state.yaw;
+    ASV.error_yaw = yawD - ASV.Yaw;
     
     %% Integral
-    if i == 1
-        ASV.error.eIntHold = 0;
-    end
-    ASV.error.eInt = ASV.error.eIntHold + ASV.error.e*sim.Ts;
-    ASV.error.eIntHold = ASV.error.eInt;
-    
+    ASV.error_crossTrack_int = ASV.error_crossTrack_int + ASV.error_crossTrack * ASV.Ts;    
     
     %% Provide Reference
     K1 = 75; % proportional yaw error
     K2 = 750;  % proportional cross track error
     K3 = 10; %integral cross 
     
-    yawRef = yawD + K1*ASV.error.yaw - K2*ASV.error.e - K3*ASV.error.eInt;
+    yawRef = yawD + K1 * ASV.error_yaw - K2 * ASV.error_crossTrack - K3 * ASV.error_crossTrack_int;
     
     %% Coordination state
-    ASV.coOrd.gamma = (180-theta)/180;
+    ASV.gamma = (180-theta)/180;
     
 end

@@ -1,11 +1,19 @@
 %% CALCULATE THRUST AND MOMENT CAUSED BY THRUSTER PAIR
-function [tau_u, tau_r, Fs, Fp] = thrusters(RPMs, RPMp, ASV, sim, i)
+function ASV = thrusters(ASV)
     % dist between motors
     l = 0.25;
+    
     % thrust from each motor
-    Fs = singleThruster(RPMs, ASV, sim, i, 2);
-    Fp = singleThruster(RPMp, ASV, sim, i, 1);
+    Fs = singleThruster(ASV.Sm, ASV, 2);
+    Fp = singleThruster(ASV.Pm, ASV, 1);
+    
     % resultant force and moment
-    tau_u = Fs + Fp;
-    tau_r = l*(Fp - Fs);
+    ASV.tau_u = Fs + Fp;
+    ASV.tau_r = l*(Fp - Fs);
+    
+    % Plotting Variables
+    ASV.tau_u_plot(ASV.counter) = ASV.tau_u;
+    ASV.tau_r_plot(ASV.counter) = ASV.tau_r;
+    ASV.Fs_plot(ASV.counter) = Fs;
+    ASV.Fp_plot(ASV.counter) = Fp;
 end
