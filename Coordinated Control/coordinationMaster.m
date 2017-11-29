@@ -38,7 +38,8 @@ function [vcorr] = coordinationMaster(V1, V2, V3, V4)
             ks = 0.0;
         else
             % gain values
-            error('TODO FIX ASV GAINS IN coordinationMaster');
+            ksync = 7.5;
+            ks = 0.01;
         end
         % coordination error
         gammaE(1,i) = gamma(1,i) - 1/n * sum(gamma);

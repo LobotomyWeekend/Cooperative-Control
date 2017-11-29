@@ -1,23 +1,20 @@
 %% HEADING CONTROLER
 % Takes current yaw and yaw rate, attempts to achive yawRef
-function [headingCommand, yawIntHold] = headingController(yawRef, ASV, sim)
+function ASV = headingController(yawRef, ASV)
 % Gain Values
 Kp = 1500;
 Kd = -1000;
 Ki = 0.1;
 
-% Get Error Term
-err = yawRef - ASV.state.yaw;
-% if    (err > 180) 
-%      err = err - 360;
-% elseif(err < -180) 
-%      err = 360 + err;
-% end
+% Get yaw error 
+err = yawRef - ASV.Yaw;
 
 % Integral error term
-yawIntHold = ASV.yawIntHold + err*sim.Ts;
+ASV.yaw_int = ASV.yaw_int + err*ASV.Ts;
 
-%Provide command
-headingCommand = Kp*err + Kd*ASV.state.r + Ki*yawIntHold;
+% Provide command
+ASV.headingCommand = Kp*err + Kd*ASV.r + Ki*ASV.yaw_int;
 
+% Plotting Variable
+ASV.headingCommand_plot(ASV.counter) = ASV.headingCommand;
 end

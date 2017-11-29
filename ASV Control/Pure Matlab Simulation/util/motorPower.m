@@ -1,9 +1,13 @@
 %% MOTOR POWER FROM YAW AND SPEED COMMANDS
-function [Pm,Sm] = motorPower(headingCommand,speedCommand)
+function [ASV] = motorPower(ASV)
 
-Cm_sqr = speedCommand;
-Dm_sqr = headingCommand;
+Cm_sqr = ASV.speedCommand;
+Dm_sqr = ASV.headingCommand;
 
-Pm = round(sqrt(abs(Cm_sqr+Dm_sqr))*sign(Cm_sqr+Dm_sqr));
-Sm = round(sqrt(abs(Cm_sqr-Dm_sqr))*sign(Cm_sqr-Dm_sqr));
+ASV.Pm = round(sqrt(abs(Cm_sqr+Dm_sqr))*sign(Cm_sqr+Dm_sqr));
+ASV.Sm = round(sqrt(abs(Cm_sqr-Dm_sqr))*sign(Cm_sqr-Dm_sqr));
+
+% Plotting Variables
+ASV.RPM_plot(:,ASV.counter) = [ASV.Pm; ASV.Sm];
+
 end

@@ -1,4 +1,4 @@
-function [yawRef, ASV] = straightLinePath(ASV, ref)      
+function [yawRef, ASV] = straightLinePath(ASV, ref, sim, i)      
     %% Process Path
     [m, c, yawD] = processLine(ref.start,ref.finish);
 
@@ -46,14 +46,13 @@ function [yawRef, ASV] = straightLinePath(ASV, ref)
     end
 
     % delta term
-    yawDel = K1*ASV.error_yaw + direc * K2 * crossTrack / ref.uRef ...
-             + direc * K4 * ASV.error_crossTrack_int;
+    yawDel = K1*ASV.error_yaw + direc*K2*crossTrack/ref.uRef ...
+             + direc*K4*ASV.error.eInt;
     yawRef = yawD + yawDel;
     
     %% Coordination state
     L    = sqrt((ref.finish(1,1) - ref.start(1,1))^2 +(ref.finish(2,1) - ref.start(2,1))^2);
-    Lpos = sqrt((ASV.X - ref.start(1,1))^2 +(ASV.Y - ref.start(2,1))^2);
-    
-    ASV.gamma = Lpos/L;
-    
+    Lpos = sqrt((ASV.state.x - ref.start(1,1))^2 +(ASV.state.y - ref.start(2,1))^2);
+    ASV.coOrd.gamma = Lpos/L;
+    ASV.gamma = ASV.coOrd.gamma;
 end

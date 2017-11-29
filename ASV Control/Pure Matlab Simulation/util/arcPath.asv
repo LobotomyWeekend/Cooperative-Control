@@ -1,4 +1,4 @@
-function [yawRef, ASV] = arcPath(ASV, ref)
+function [yawRef, ASV] = arcPath(ASV, ref, sim, i)
     %% ARC PATH for ASV
     % Takes a start point and end point and commands the vehicle to follow
     % an arc between these points. Achieved by making the yawRef = tangent
