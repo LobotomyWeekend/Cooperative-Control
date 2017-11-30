@@ -57,6 +57,8 @@ hold on;
 grid on;
 plot(ASV1.X_plot, ASV1.Y_plot);
 plot(ASV2.X_plot, ASV2.Y_plot);
+xlabel('x (m)');
+ylabel('y (m)');
 hold off;
 
 figure('Name','Coordination States');
