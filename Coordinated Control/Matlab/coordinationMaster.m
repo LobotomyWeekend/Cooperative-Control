@@ -38,10 +38,15 @@ function [vcorr] = coordinationMaster(V1, V2, V3, V4)
             ks = 0.01;
         elseif types(i) == "ASV"
             % gain values
+<<<<<<< HEAD:Coordinated Control/Matlab/coordinationMaster.m
             ksync = 4.5;
             ks = 0.01;
         else
             error('Invalid Vehicle Type');
+=======
+            ksync = 7.5;
+            ks = 0.01;
+>>>>>>> master:Coordinated Control/coordinationMaster.m
         end
         
         % Coordination error
