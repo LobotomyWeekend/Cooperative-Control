@@ -10,8 +10,8 @@ function [yawRef, ASV] = arcPath(ASV, ref)
     [xM, yM, r, ~] = processArc(ref.start,ref.finish);
 
     % spoof location if circle was centred on [0,0]
-    xSpoof = ASV.X - xM;
-    ySpoof = ASV.Y - yM;
+    xSpoof = real(ASV.X) - xM;
+    ySpoof = real(ASV.Y) - yM;
     
     % angular progression around circle
     theta = atan2d(ySpoof,xSpoof);

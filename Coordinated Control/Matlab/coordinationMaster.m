@@ -34,28 +34,20 @@ function [vcorr] = coordinationMaster(V1, V2, V3, V4)
     for i = 1:n
         if types(i) == "UAV"
             % gain values
-            ksync = 1.5;
-            ks = 0.0;
-        else
-            % gain values
-            ksync = 7.5;
+            ksync = 4.5;
             ks = 0.01;
+        elseif types(i) == "ASV"
+            % gain values
+            ksync = 4.5;
+            ks = 0.01;
+        else
+            error('Invalid Vehicle Type');
         end
-        % coordination error
+        
+        % Coordination error
         gammaE(1,i) = gamma(1,i) - 1/n * sum(gamma);
-        % correction velocity
+        % Correction velocity
         vcorr(i) = - ksync * asin(gammaE(1,i) / (abs(gammaE(1,i)) + ks)) * 2/pi;
     end
     
-    
-    %% TODO, implement below outwith coordinationMaster
-%     %% Save to vehicle structures
-%     ASV1.coOrd.gammaE = gammaE(1,1);
-%     ASV2.coOrd.gammaE = gammaE(1,2);
-%     ASV1.coOrd.vcorr  =  vcorr(1,1);
-%     ASV2.coOrd.vcorr  =  vcorr(1,2);
-%     
-%     %% Provide reference values
-%     uRef1 = ref1.uRefNominal + vcorr(1,1);
-%     uRef2 = ref2.uRefNominal + vcorr(1,2);
 end

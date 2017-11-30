@@ -21,12 +21,15 @@ yawInit = 0;
 % establish structure
 ASV1 = ASV_variables(sim, ref.start, yawInit, 1);
 
+%% Constants
+complete = 1;
 
 %% Simulation
 for t = sim.time
     %% Calculate References
     ref.yawRef = 120;
     ref.uRef = 1;
+   
 
     %% Simulate Vehicles
     % ASV 1

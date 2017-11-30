@@ -1,5 +1,8 @@
 function ASV = ASV_variables(sim, initialPosition, initialYaw, vehicleID)
-
+    %% Establishes all variables for the ASV struct variable
+    % sets all variables to zero unless initial conditions are applied,
+    % other properties are set as the vehicle properties
+    
     % vehicle properties for cooperation
     ASV.vehicleType = "ASV";
     ASV.vehicleID = vehicleID;
@@ -87,6 +90,9 @@ function ASV = ASV_variables(sim, initialPosition, initialYaw, vehicleID)
     ASV.speed_int = 0;
     ASV.yaw_int   = 0;
     ASV.error_crossTrack_int = 0;
+    
+    % Latch
+    ASV.latch = 0;
     
     % Counter value
     ASV.counter = 1;

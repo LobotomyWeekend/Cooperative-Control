@@ -1,7 +1,5 @@
-%% TESTING ASV INNER LOOP
-% function which mimics the behaviour of the simulink model
-% i.e. can be placed inside a time loop with ref values changed
-% dynamically.
+%% COORDINATION ASV-ASV
+% simulation of two ASV vehicles working in cooperation
 clear all;
 close all;
 clc;

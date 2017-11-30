@@ -1,5 +1,6 @@
-
-%% Simulates quadrotor dynamics and implements a control algorithm
+%% Simulates UAV-UAV Cooperation
+% Two UAVs working in coordination for any suitable path type, plots
+% trajectory, cross track error, and coordination states over time.
 
 %% Initialize Workspace
 clear all;
@@ -16,14 +17,14 @@ sim.t = 0:sim.Ts:sim.Tend;
 
 %% Path Variables & References
 % Vehicle 1
-ref1.pathType = 2;
-ref1.start = [2; 0];
-ref1.finish = [28; 0];
+ref1.pathType = 1;
+ref1.start = [0; 0];
+ref1.finish = [20; 20];
 ref1.uRefNominal = 0.5;
 % Vehicle 2
-ref2.pathType = 2;
-ref2.start = [0; 0];
-ref2.finish = [30; 0];
+ref2.pathType = 1;
+ref2.start = [2; 0];
+ref2.finish = [22; 20];
 ref2.uRefNominal = 0.5;
 
 %% Initialize Vehicles

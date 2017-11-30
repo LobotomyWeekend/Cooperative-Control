@@ -69,6 +69,8 @@ function Quad = quad_dynamics_nonlinear(Quad)
 
     Quad.psi_plot(Quad.counter) = Quad.psi;
     Quad.psi_ref_plot(Quad.counter) = Quad.psi_des;
+    
+    Quad.gamma_plot(Quad.counter) = Quad.gamma;
 
     Quad.counter = Quad.counter + 1;
 
