@@ -45,7 +45,8 @@ end
 
 %% Plots
 % trajectory
-plotTrajectoryUAV(UAV);
-
-% Error Plot
-plotErrorUAV(UAV, ref);
+plotTrajectory(UAV);
+% coordination state
+plotCoordination(UAV);
+% cross track error
+plotCrossTrackError(UAV);

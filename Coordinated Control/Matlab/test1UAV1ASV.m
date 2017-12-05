@@ -70,19 +70,7 @@ for t =  sim.time
 end
 
 %% Plotting
-figure('Name','Trajectory');
-hold on;
-grid on;
-plot(UAV1.X_plot, UAV1.Y_plot);
-plot(ASV2.X_plot, ASV2.Y_plot);
-legend('UAV','ASV');
-axis('equal');
-hold off;
-
-figure('Name','Coordination States');
-hold on;
-grid on;
-plot(sim.time, UAV1.gamma_plot(1:length(sim.time)));
-plot(sim.time, ASV2.gamma_plot(1:length(sim.time)));
-legend('UAV1','ASV2');
-hold off;
+% trajectory
+plotTrajectory(UAV1, ASV2);
+% coordination
+plotCoordination(UAV1, ASV2);

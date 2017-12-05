@@ -8,6 +8,10 @@ function [vcorr] = coordinationMaster(V1, V2, V3, V4)
     % number of vehicles
     n = nargin;
     
+    % gain values
+    ksync = 4.5;
+    ks = 0.01;
+    
     % vehicle types and coordination states of vehicles
     switch n
         case 1
@@ -31,24 +35,7 @@ function [vcorr] = coordinationMaster(V1, V2, V3, V4)
     gammaE = zeros(1,n);
     vcorr  = zeros(1,n);
     
-    for i = 1:n
-        if types(i) == "UAV"
-            % gain values
-            ksync = 4.5;
-            ks = 0.01;
-        elseif types(i) == "ASV"
-            % gain values
-<<<<<<< HEAD:Coordinated Control/Matlab/coordinationMaster.m
-            ksync = 4.5;
-            ks = 0.01;
-        else
-            error('Invalid Vehicle Type');
-=======
-            ksync = 7.5;
-            ks = 0.01;
->>>>>>> master:Coordinated Control/coordinationMaster.m
-        end
-        
+    for i = 1:n      
         % Coordination error
         gammaE(1,i) = gamma(1,i) - 1/n * sum(gamma);
         % Correction velocity

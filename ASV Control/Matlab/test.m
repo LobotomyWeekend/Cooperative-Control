@@ -13,7 +13,7 @@ sim.time = 0:sim.Ts:sim.Tend;
 
 % waypoints
 ref.start = [0;0];
-ref.finish = [10;10];
+ref.finish = [0;10];
 
 %% Initialize Vehicles
 % initial yaw value

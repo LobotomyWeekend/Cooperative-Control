@@ -45,17 +45,12 @@ for t = sim.time
 end
 
 %% Plots
-close all;
-% references and response
-plotRefValues(ASV1, ref, sim);
 % trajectory
-figure('Name', 'Trajectory');
-hold on; grid on;
-axis('equal');
-plot([ASV1.stateHist.x],[ASV1.stateHist.y]);
-xlabel('x (m)');
-ylabel('y (m)');
-hold off;
+plotTrajectory(ASV1);
+% coordination state
+plotCoordination(ASV1);
+% cross track error
+plotCrossTrackError(ASV1);
 
 %% Commands
 figure('Name', 'Commands');

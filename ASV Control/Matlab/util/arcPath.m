@@ -10,19 +10,18 @@ function [yawRef, ASV] = arcPath(ASV, ref)
     [xM, yM, r, ~] = processArc(ref.start,ref.finish);
 
     % spoof location if circle was centred on [0,0]
-<<<<<<< HEAD:ASV Control/Matlab/util/arcPath.m
     xSpoof = real(ASV.X) - xM;
     ySpoof = real(ASV.Y) - yM;
-=======
-    xSpoof = ASV.X - xM;
-    ySpoof = ASV.Y - yM;
->>>>>>> master:ASV Control/Pure Matlab Simulation/util/arcPath.m
     
     % angular progression around circle
     theta = atan2d(ySpoof,xSpoof);
     
     % find desired yaw
-    yawD = theta - 90;
+    if ref.pathType == 2 % clockwise arc
+        yawD = theta - 90;
+    elseif ref.pathType == 3 % counter clockwise arc
+        yawD = theta + 90;
+    end
 
     
     %% Error
@@ -51,6 +50,11 @@ function [yawRef, ASV] = arcPath(ASV, ref)
     yawRef = yawD + K1 * ASV.error_yaw - K2 * ASV.error_crossTrack - K3 * ASV.error_crossTrack_int;
     
     %% Coordination state
-    ASV.gamma = (180-theta)/180;
+    if ref.pathType == 2 % clockwise arc
+        ASV.gamma = (180 - theta) / 180;
+    elseif ref.pathType == 3 % counter clockwise arc
+        ASV.gamma = (180 + theta) / 180;
+    end
+    
     
 end

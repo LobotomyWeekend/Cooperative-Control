@@ -62,15 +62,8 @@ end
 
 %% Plots
 % trajectory
-plotTrajectoryUAV(UAV1, UAV2);
-
-% Error Plot
-plotErrorUAV(UAV1, ref1, UAV2, ref2);
-
-figure('Name','Coordination States');
-hold on;
-grid on;
-plot(sim.t, gammaHist(1,:));
-plot(sim.t, gammaHist(2,:));
-legend('UAV1','UAV2');
-hold off;
+plotTrajectory(UAV1, UAV2);
+% coordination state
+plotCoordination(UAV1, UAV2);
+% cross track error
+plotCrossTrackError(UAV1, UAV2);

@@ -11,11 +11,13 @@ function [Quad] = quad_variables(sim, vehicleID, initialPosition)
     % simulation parameters
     Quad.init = 0;     % used in initilization 
     Quad.counter = 1; 
+    Quad.section = 1; % path section for component paths
 
     % plotting variables
     Quad.Ts = sim.Ts; 
     Quad.sim_time = sim.Tend;
     Quad.t_plot = [0:Quad.Ts:Quad.sim_time-Quad.Ts];
+    Quad.time = 0:Quad.Ts:Quad.sim_time;
 
     % coordination
     Quad.gamma = 0;
