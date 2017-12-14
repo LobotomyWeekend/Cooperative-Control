@@ -27,6 +27,7 @@ addpath('ASV Control','Coordinated Control','UAV Control','General' -end);
 
 ## Acknowledgments
 
-* [Prof. Antonio Pascoal]
-* [Rita Cunha]
+* [Prof. Antonio Pascoal](http://welcome.isr.tecnico.ulisboa.pt/author/antoniomanueldossantos/) - ISR Lisbon
+* [Dr. Euan McGookin](https://www.gla.ac.uk/schools/engineering/staff/euanmcgookin/) - University of Glasgow
+* [Rita Cunha](http://welcome.isr.tecnico.ulisboa.pt/author/ritamariamendesdealmeidacorreiada/) - ISR Lisbon
 * [Staff & Students at ISR]
