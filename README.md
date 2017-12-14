@@ -15,7 +15,7 @@ All software is available as Matlab code. The ASV also has a stable Simulink mod
 Simulations for any combination of vehicles can be run, currently this is only stable up to around 4 vehicles [14/12/2017]. The general structure for these simulations is best seen in ```/Coordinatied Control/Matlab/test1UAV1ASV.m```. I have tried to keep the comments useful and up to date but this is still a work in progress.
 
 ### Prerequisites
-* [Matlab R2017a]
+* [Matlab R2017a](https://www.mathworks.com/downloads/web_downloads/get_release)
 * [Simulink] (Optional)
 
 ### Installing
