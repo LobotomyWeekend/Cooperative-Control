@@ -31,10 +31,7 @@ UAV = quad_dynamics_nonlinear(UAV);
 for t = UAV.t_plot
     
     % Path Follower
-    UAV = lookaheadPathFollowerUAV(UAV, ref);
-    
-    % Coordination
-    UAV = coordinationUAV(UAV, vCorr, ref);
+    UAV = lookaheadPathFollowerUAV(UAV, ref, vCorr);
     
     % End condition
     UAV = endConditionUAV(UAV, ref, complete);

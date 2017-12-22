@@ -21,7 +21,18 @@ function plotTrajectory(V1,V2,V3,V4)
     elseif V1.vehicleType == "ASV" % Plot Marine Vehicle
         
        % Desired Trajectory ASV 1
-       plotTrajectoryDesired(V1.ref);
+       if V1.ref.pathType == 2 % arc path
+           % get arc details
+           processArc(V1.ref.start, V1.ref.finish);
+           j = 1;
+           for theta = 0:0.1:180
+               V1.ref_X_
+               j = j + 1;
+           end % end loop over angles
+       elseif V1.ref.pathType == 1 % straight line path
+           % TO DO!!!
+       end
+           
        % Followed Trajectory ASV 1
        plot3(V1.X_plot, V1.Y_plot, zeros(1,length(V1.X_plot)), ...
            'DisplayName', 'Simulated Path ASV 1');
@@ -35,7 +46,7 @@ function plotTrajectory(V1,V2,V3,V4)
         if V2.vehicleType == "UAV" % plot quadcopter
             
             % Desired Trajectory UAV 2
-                      
+                        
             % Followed Trajectory UAV 2
             plot3(V2.X_plot, V2.Y_plot, V2.Z_plot, 'k','DisplayName',...
                 'Simulated Path UAV 2');
@@ -43,7 +54,7 @@ function plotTrajectory(V1,V2,V3,V4)
         elseif V2.vehicleType == "ASV" % plot marine vehicle
             
             % Desired Trajectory ASV 2
-            plotTrajectoryDesired(V2.ref);  
+       
             % Followed Trajectory ASV 2
             plot3(V2.X_plot, V2.Y_plot, zeros(1,length(V2.X_plot)), ...
                 'DisplayName', 'Simulated Path ASV 2');
@@ -65,7 +76,7 @@ function plotTrajectory(V1,V2,V3,V4)
         elseif V3.vehicleType == "ASV" % plot marine vehicle
             
             % Desired Trajectory ASV 3
-            plotTrajectoryDesired(V3.ref);  
+       
             % Followed Trajectory ASV 3
             plot3(V3.X_plot, V3.Y_plot, zeros(1,length(V3.X_plot)), ...
                 'DisplayName', 'Simulated Path ASV 3');
@@ -90,7 +101,7 @@ function plotTrajectory(V1,V2,V3,V4)
         elseif V4.vehicleType == "ASV" % plot marine vehicle
             
             % Desired Trajectory ASV 4
-            plotTrajectoryDesired(V4.ref);  
+       
             % Followed Trajectory ASV 4
             plot3(V4.X_plot, V4.Y_plot, zeros(1,length(V4.X_plot)), ...
                 'DisplayName', 'Simulated Path ASV 4');

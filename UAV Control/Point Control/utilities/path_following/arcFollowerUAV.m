@@ -1,7 +1,7 @@
 function Quad = arcFollowerUAV(Quad, Ref, uRef, rotationalDirection)
     %% Arc Path Following for UAV
     % gain terms
-    K2 = 2.5; % proportional cross track
+    K2 = 1; % proportional cross track
     
     % process arc
     [xM, yM, r, ~] = processArc(Ref.start,Ref.finish);
@@ -37,22 +37,18 @@ function Quad = arcFollowerUAV(Quad, Ref, uRef, rotationalDirection)
         
     end
 
-    %% Cross track error control
+    %% Cross track error
     % cross track error
     e = sqrt((xD - xSpoof)^2 + (yD - ySpoof)^2);
 
-    % update position command
-    if sqrt(xSpoof^2 + ySpoof^2) > r
-        % outside path
-        r = r - K2 * e;
-    else
-        % inside path
-        r = r + K2 * e;
+    % negative if inside circle
+    if sqrt(xSpoof^2 + ySpoof^2) < r
+        e = - e;
     end
-
+    
     %% Update reference
     % change in theta each timestep (clockwise)
-    dTheta = uRef/r*Quad.Ts*180/pi;
+    dTheta = uRef / r * Quad.Ts * 180 / pi;
     
     % counterclockwise
     if rotationalDirection == "CCW"
@@ -60,8 +56,8 @@ function Quad = arcFollowerUAV(Quad, Ref, uRef, rotationalDirection)
     end
 
     % update desired position
-    Quad.X_des_GF = r*(cosd(Quad.theta_pos - dTheta)) + xM;
-    Quad.Y_des_GF = r*(sind(Quad.theta_pos - dTheta)) + yM;  
+    Quad.X_des_GF = r * (cosd(Quad.theta_pos - dTheta)) + xM;
+    Quad.Y_des_GF = r * (sind(Quad.theta_pos - dTheta)) + yM;  
     
     %% Store History
     % history of lookahead points

@@ -48,13 +48,8 @@ for t = sim.time
     %% Simulate Vehicles
     % ASV 1
     [ASV1] = innerLoopASV(ref, ASV1);
-    
-    %% Display Progression
-    clc
-    progress = floor(ASV1.counter / length(ASV1.time) * 100);
-    display = [num2str(progress), '% progression'];
-    disp(display);
 
+    displayProgress(ASV1);
 end
 
 %% Plotting

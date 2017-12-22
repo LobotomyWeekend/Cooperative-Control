@@ -6,7 +6,7 @@ function [waypoints, ref] = waypointsLawnmower(length_line, diameter_arc, segmen
 
     % Array of path types
     path_types = [1 2 1 3];
-    if segments + 1 > length(path_types)
+    while segments + 1 > length(path_types)
         path_types = [path_types, path_types];
     end
 
