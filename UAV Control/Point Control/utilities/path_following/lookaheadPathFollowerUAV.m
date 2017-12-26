@@ -11,7 +11,7 @@ uError = uReal - Ref.uRefNominal;
 uRef = Ref.uRefNominal - K1*uError + vcorr; 
 
 % keep forwards progression (useful for coordination)
-if uRef < 0
+if uRef <= 0
     uRef = 0;
 end
 

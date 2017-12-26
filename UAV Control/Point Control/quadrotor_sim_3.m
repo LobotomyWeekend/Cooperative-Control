@@ -11,7 +11,7 @@ complete = 1.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 120;
+sim.Tend = 540;
 sim.t = 0:sim.Ts:sim.Tend;
 
 %% Path Variables & References
@@ -19,32 +19,35 @@ sim.t = 0:sim.Ts:sim.Tend;
 ref1.pathType = 2;
 ref1.start = [0; 0];
 ref1.finish = [40; 0];
-ref1.uRefNominal = 1;
+ref1.uRefNominal = 0.5;
 
 % Vehicle 2
 ref2.pathType = 2;
-ref2.start = [5; 0];
-ref2.finish = [35; 0];
-ref2.uRefNominal = 1;
+ref2.start = [2; 0];
+ref2.finish = [38; 0];
+ref2.uRefNominal = 0.5;
 
 % Vehicle 3
 ref3.pathType = 2;
-ref3.start = [10; 0];
-ref3.finish = [30; 0];
-ref3.uRefNominal = 1;
+ref3.start = [4; 0];
+ref3.finish = [36; 0];
+ref3.uRefNominal = 0.5;
 
 %% Initialize Vehicles
 % UAV1
 UAV1 = quad_variables(sim, 1, ref1.start);
 UAV1 = quad_dynamics_nonlinear(UAV1);
+UAV1.ref = ref1;
 
 % UAV2
 UAV2 = quad_variables(sim, 2, ref2.start);
 UAV2 = quad_dynamics_nonlinear(UAV2);
+UAV2.ref = ref2;
 
 % UAV 3
 UAV3 = quad_variables(sim, 3, ref3.start);
 UAV3 = quad_dynamics_nonlinear(UAV3);
+UAV3.ref = ref3;
 
 %% Run The Simulation Loop
 for t = sim.t
