@@ -1,0 +1,71 @@
+%% Simulates quadrotor dynamics and implements a control algorithm
+% This simulation is a new version 26/12/2017 which controls the UAV in
+% absolute velocity and heading. This is the same method as with the ASV,
+% and has a number of advantages over waypoint control.
+
+clear all;
+close all;
+clc;
+
+% Add Paths
+mkdir('utilities')
+addpath(genpath('utilities'))
+
+%% Initialize Workspace
+% constants
+complete = 1.0;
+vCorr = 0.0;
+
+%% Simulation inputs
+sim.Ts = 0.01;
+sim.Tend = 120;
+
+%% Path Variables & References
+ref.pathType = 1;
+ref.start = [0; 0]; % also vehicle's initial position
+ref.finish = [20; 20];
+ref.uRefNominal = 0.5;
+ref.uRef = 0.5;
+ref.yawRef = 270;
+
+%% Initialize Vehicle
+UAV = quad_variables(sim,ref.start);
+UAV = quad_dynamics_nonlinear(UAV);
+
+%% Run The Simulation Loop
+i = 1;
+for t = UAV.t_plot
+    
+    if ~(t,10)
+        uRef = ref.uRef + 
+    
+    % Generate speed reference
+    UAV = parameterizeSpeed(UAV, ref);
+    
+    % Inner Loop Dynamics and Controllers
+    UAV = innerLoopUAV(UAV);
+    
+    % Save reference Values
+    uRef_plot(i) = ref.uRef;
+    yawRef_plot(i) = ref.yawRef;
+    
+    i = i + 1;
+end
+
+%% Plots
+% trajectory
+plotTrajectory(UAV);
+
+figure('Name', 'Speed Plot');
+hold on
+xlabel('Time (s)');
+ylabel('Speed (m/s)');
+plot(UAV.t_plot, uRef_plot, '--');
+plot(UAV.t_plot, UAV.Abs_Vel_plot(1:length(UAV.t_plot)));
+legend('Reference','Simulated');
+hold off
+
+% % coordination state
+% plotCoordination(UAV);
+% % cross track error
+% plotCrossTrackError(UAV);
