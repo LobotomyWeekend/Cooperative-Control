@@ -1,78 +1,78 @@
-function Quad = quad_dynamics_nonlinear(Quad)
+function UAV = quad_dynamics_nonlinear(UAV)
     %% Update Accelerations
 
-    Quad.X_ddot = (-[cos(Quad.phi)*sin(Quad.theta)*cos(Quad.psi)+sin(Quad.phi)*sin(Quad.psi)]*Quad.U1-Quad.Kdx*Quad.X_dot)/Quad.m;
-    Quad.Y_ddot = (-[cos(Quad.phi)*sin(Quad.psi)*sin(Quad.theta)-cos(Quad.psi)*sin(Quad.phi)]*Quad.U1-Quad.Kdy*Quad.Y_dot)/Quad.m;
-    Quad.Z_ddot = (-[cos(Quad.phi)*cos(Quad.theta)]*Quad.U1-Quad.Kdz*Quad.Z_dot)/Quad.m+Quad.g;
+    UAV.X_ddot = (-[cos(UAV.phi)*sin(UAV.theta)*cos(UAV.psi)+sin(UAV.phi)*sin(UAV.psi)]*UAV.U1-UAV.Kdx*UAV.X_dot)/UAV.m;
+    UAV.Y_ddot = (-[cos(UAV.phi)*sin(UAV.psi)*sin(UAV.theta)-cos(UAV.psi)*sin(UAV.phi)]*UAV.U1-UAV.Kdy*UAV.Y_dot)/UAV.m;
+    UAV.Z_ddot = (-[cos(UAV.phi)*cos(UAV.theta)]*UAV.U1-UAV.Kdz*UAV.Z_dot)/UAV.m+UAV.g;
 
-    Quad.p_dot = (Quad.q*Quad.r*(Quad.Jy - Quad.Jz) - Quad.Jp*Quad.p*Quad.Obar + Quad.l*Quad.U2)/Quad.Jx;
-    Quad.q_dot = (Quad.p*Quad.r*(Quad.Jz - Quad.Jx) + Quad.Jp*Quad.q*Quad.Obar + Quad.l*Quad.U3)/Quad.Jy;
-    Quad.r_dot = (Quad.p*Quad.q*(Quad.Jx - Quad.Jy) + Quad.U4)/Quad.Jz;
+    UAV.p_dot = (UAV.q*UAV.r*(UAV.Jy - UAV.Jz) - UAV.Jp*UAV.p*UAV.Obar + UAV.l*UAV.U2)/UAV.Jx;
+    UAV.q_dot = (UAV.p*UAV.r*(UAV.Jz - UAV.Jx) + UAV.Jp*UAV.q*UAV.Obar + UAV.l*UAV.U3)/UAV.Jy;
+    UAV.r_dot = (UAV.p*UAV.q*(UAV.Jx - UAV.Jy) + UAV.U4)/UAV.Jz;
 
-    Quad.phi_dot   = Quad.p + sin(Quad.phi)*tan(Quad.theta)*Quad.q + cos(Quad.phi)*tan(Quad.theta)*Quad.r;
-    Quad.theta_dot = cos(Quad.phi)*Quad.q - sin(Quad.phi)*Quad.r;
-    Quad.psi_dot   = sin(Quad.phi)/cos(Quad.theta)*Quad.q + cos(Quad.phi)/cos(Quad.theta)*Quad.r;
+    UAV.phi_dot   = UAV.p + sin(UAV.phi)*tan(UAV.theta)*UAV.q + cos(UAV.phi)*tan(UAV.theta)*UAV.r;
+    UAV.theta_dot = cos(UAV.phi)*UAV.q - sin(UAV.phi)*UAV.r;
+    UAV.psi_dot   = sin(UAV.phi)/cos(UAV.theta)*UAV.q + cos(UAV.phi)/cos(UAV.theta)*UAV.r;
 
     %% Disturbance model
 
-    Quad.X_ddot = Quad.X_ddot + Quad.X_dis/Quad.m; 
-    Quad.Y_ddot = Quad.Y_ddot + Quad.Y_dis/Quad.m; 
-    Quad.Z_ddot = Quad.Z_ddot + Quad.Z_dis/Quad.m; 
-    Quad.phi_dot = Quad.phi_dot + Quad.phi_dis/Quad.Jx*Quad.Ts; 
-    Quad.theta_dot = Quad.theta_dot + Quad.theta_dis/Quad.Jy*Quad.Ts; 
-    Quad.psi_dot = Quad.psi_dot + Quad.psi_dis/Quad.Jz*Quad.Ts;
+    UAV.X_ddot = UAV.X_ddot + UAV.X_dis/UAV.m; 
+    UAV.Y_ddot = UAV.Y_ddot + UAV.Y_dis/UAV.m; 
+    UAV.Z_ddot = UAV.Z_ddot + UAV.Z_dis/UAV.m; 
+    UAV.phi_dot = UAV.phi_dot + UAV.phi_dis/UAV.Jx*UAV.Ts; 
+    UAV.theta_dot = UAV.theta_dot + UAV.theta_dis/UAV.Jy*UAV.Ts; 
+    UAV.psi_dot = UAV.psi_dot + UAV.psi_dis/UAV.Jz*UAV.Ts;
 
     %% Update Velocities and Positions
 
     % Calculating the Z velocity & position
-    Quad.Z_dot = Quad.Z_ddot*Quad.Ts + Quad.Z_dot;
-    Quad.Z = Quad.Z_dot*Quad.Ts + Quad.Z;
+    UAV.Z_dot = UAV.Z_ddot*UAV.Ts + UAV.Z_dot;
+    UAV.Z = UAV.Z_dot*UAV.Ts + UAV.Z;
 
     % Calculating the X velocity & position
-    Quad.X_dot = Quad.X_ddot*Quad.Ts + Quad.X_dot;
-    Quad.X = Quad.X_dot*Quad.Ts + Quad.X;
+    UAV.X_dot = UAV.X_ddot*UAV.Ts + UAV.X_dot;
+    UAV.X = UAV.X_dot*UAV.Ts + UAV.X;
 
     % Calculating the Y velocity & position
-    Quad.Y_dot = Quad.Y_ddot*Quad.Ts + Quad.Y_dot;
-    Quad.Y = Quad.Y_dot*Quad.Ts + Quad.Y;
+    UAV.Y_dot = UAV.Y_ddot*UAV.Ts + UAV.Y_dot;
+    UAV.Y = UAV.Y_dot*UAV.Ts + UAV.Y;
 
     % Calculating p,q,r
-    Quad.p = Quad.p_dot*Quad.Ts+Quad.p;
-    Quad.q = Quad.q_dot*Quad.Ts+Quad.q;
-    Quad.r = Quad.r_dot*Quad.Ts+Quad.r;
+    UAV.p = UAV.p_dot*UAV.Ts + UAV.p;
+    UAV.q = UAV.q_dot*UAV.Ts + UAV.q;
+    UAV.r = UAV.r_dot*UAV.Ts + UAV.r;
 
     % Calculating angular velocity and position
-    Quad.phi = Quad.phi_dot*Quad.Ts + Quad.phi;
-    Quad.theta = Quad.theta_dot*Quad.Ts+Quad.theta;
-    Quad.psi = Quad.psi_dot*Quad.Ts+Quad.psi;
+    UAV.phi = UAV.phi_dot*UAV.Ts + UAV.phi;
+    UAV.theta = UAV.theta_dot*UAV.Ts + UAV.theta;
+    UAV.psi = UAV.psi_dot*UAV.Ts + UAV.psi;
 
     %% Update Plotting Variables
 
     % Flip positive Z axis up for intuitive plotting
-    Quad.Z_plot(Quad.counter) = -Quad.Z;
-    Quad.Z_ref_plot(Quad.counter) = -Quad.Z_des;
-    Quad.Z_dot_plot(Quad.counter) = -Quad.Z_dot;
+    UAV.Z_plot(UAV.counter) = -UAV.Z;
+    UAV.Z_ref_plot(UAV.counter) = -UAV.Z_des;
+    UAV.Z_dot_plot(UAV.counter) = -UAV.Z_dot;
 
-    Quad.X_plot(Quad.counter) = Quad.X;
-    Quad.X_ref_plot(Quad.counter) = Quad.X_des;
-    Quad.X_dot_plot(Quad.counter) = Quad.X_dot;
+    UAV.X_plot(UAV.counter) = UAV.X;
+    UAV.X_ref_plot(UAV.counter) = UAV.X_des;
+    UAV.X_dot_plot(UAV.counter) = UAV.X_dot;
 
-    Quad.Y_plot(Quad.counter) = Quad.Y;
-    Quad.Y_ref_plot(Quad.counter) = Quad.Y_des;
-    Quad.Y_dot_plot(Quad.counter) = Quad.Y_dot;
+    UAV.Y_plot(UAV.counter) = UAV.Y;
+    UAV.Y_ref_plot(UAV.counter) = UAV.Y_des;
+    UAV.Y_dot_plot(UAV.counter) = UAV.Y_dot;
 
-    Quad.phi_plot(Quad.counter) = Quad.phi;
-    Quad.phi_ref_plot(Quad.counter) = Quad.phi_des;
+    UAV.phi_plot(UAV.counter) = UAV.phi;
+    UAV.phi_ref_plot(UAV.counter) = UAV.phi_des;
 
-    Quad.theta_plot(Quad.counter) = Quad.theta;
-    Quad.theta_ref_plot(Quad.counter) = Quad.theta_des;
+    UAV.theta_plot(UAV.counter) = UAV.theta;
+    UAV.theta_ref_plot(UAV.counter) = UAV.theta_des;
 
-    Quad.psi_plot(Quad.counter) = Quad.psi;
-    Quad.psi_ref_plot(Quad.counter) = Quad.psi_des;
+    UAV.psi_plot(UAV.counter) = UAV.psi;
+    UAV.psi_ref_plot(UAV.counter) = UAV.psi_des;
     
-    Quad.gamma_plot(Quad.counter) = Quad.gamma;
+    UAV.gamma_plot(UAV.counter) = UAV.gamma;
 
-    Quad.counter = Quad.counter + 1;
+    UAV.counter = UAV.counter + 1;
 
 end
 

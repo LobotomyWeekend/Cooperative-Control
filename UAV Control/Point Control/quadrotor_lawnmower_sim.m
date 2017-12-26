@@ -1,4 +1,9 @@
-%% Simulates quadrotor dynamics and implements a control algorithm
+%% Simulates quadrotor on Lawnmower Path
+% The path's waypoints are defined by the function waypointsLawnmower,
+% which accepts arguments; swath length, arc diameter, and number of path
+% segments. The vehicle is then simulated and commanded to follow this
+% path. Once the simulation has completed (reached Tend) it will plot
+% trajectory, coordination state, and cross track error.
 
 %% Initialize Workspace
 clear all;
@@ -11,13 +16,13 @@ vCorr = 0.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 540;
+sim.Tend = 1440;
 
 %% Path Variables & References
 % waypoints
-length_line = 10;
+length_line = 50;
 diameter_arc = 20;
-segments = 5;
+segments = 20;
 
 [wayPoints, ref] = waypointsLawnmower(length_line, diameter_arc, segments);
 

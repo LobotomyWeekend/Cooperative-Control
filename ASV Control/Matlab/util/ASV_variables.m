@@ -13,7 +13,7 @@ function ASV = ASV_variables(sim, initialPosition, initialYaw, vehicleID)
     ASV.time = sim.time;
     
     % simulation parameters
-    Quad.section = 1; % path section for component paths
+    ASV.section = 1; % path section for component paths
 
     % Translational Position
     ASV.X = 0;          % position in X ( GF )

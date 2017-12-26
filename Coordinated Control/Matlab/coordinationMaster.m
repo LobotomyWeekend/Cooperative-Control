@@ -4,16 +4,21 @@
 % with ascending vehicleID = [1,2,...,4]
 function [vcorr] = coordinationMaster(V1, V2, V3, V4)
     
-    %% Setup
+    %% Setup    
+    % gain values
+    ksync = 5;
+    ks = 0.01;
+    
     % number of vehicles
     n = nargin;
     
-    % gain values
-    ksync = 4.5;
-    ks = 0.01;
+    % preallocate correction velocity matrix
+    vcorr  = zeros(1,n);
+    % preallocate gamma error matrix
+    gammaE = zeros(1,n);
     
     % vehicle types and coordination states of vehicles
-    switch n
+    switch nargin
         case 1
             types = [V1.vehicleType];
             gamma = [V1.gamma];
@@ -28,13 +33,8 @@ function [vcorr] = coordinationMaster(V1, V2, V3, V4)
             gamma = [V1.gamma, V2.gamma, V3.gamma, V4.gamma];
     end
     
-
     
     %% Loop through vehicles to find correction velocity
-    % preallocate
-    gammaE = zeros(1,n);
-    vcorr  = zeros(1,n);
-    
     for i = 1:n      
         % Coordination error
         gammaE(1,i) = gamma(1,i) - 1/n * sum(gamma);

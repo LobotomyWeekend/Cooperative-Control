@@ -53,8 +53,8 @@ function [Quad] = quad_variables(sim, vehicleID, initialPosition)
     %Translational Positions
     if nargin > 2
         % given initial position
-        Quad.X = initialPosition(1,1);        % initial position in X direction GF (m)
-        Quad.Y = initialPosition(2,1);        % initial position in Y direction GF (m)
+        Quad.X = initialPosition(1,1);          % initial position in X direction GF (m)
+        Quad.Y = initialPosition(2,1);          % initial position in Y direction GF (m)
     else 
         % otherwise, assume [0,0]
         Quad.X = 0;                 % initial position in X direction GF (m)
@@ -132,9 +132,9 @@ function [Quad] = quad_variables(sim, vehicleID, initialPosition)
     Quad.Y_KD = -.35;         % KD value in Y position control
     Quad.Y_KI_lim = .25;         % Error to start calculating integral term
 
-    Quad.Z_KP = 10/1.7;    % KP value in altitude control
-    Quad.Z_KI = 0*3;    % KI value in altitude control
-    Quad.Z_KD = -10/1.980;  % KD value in altitude control
+    Quad.Z_KP = 5.88;    % KP value in altitude control
+    Quad.Z_KI = 0;    % KI value in altitude control
+    Quad.Z_KD = -5.05;  % KD value in altitude control
     Quad.Z_KI_lim = .25;         % Error to start calculating integral term
 
     Quad.phi_KP = 4.5;      % KP value in roll control 2

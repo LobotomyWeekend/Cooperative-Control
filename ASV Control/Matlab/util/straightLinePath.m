@@ -32,7 +32,7 @@ function [yawRef, ASV] = straightLinePath(ASV, ref)
 
     % Clockwise from path in defined as negative crossTrack error
     
-    if m ~= Inf % standard case
+    if abs(m) ~= Inf % standard case
         path = m*ASV.X + c;
         if ASV.Y < path
             crossTrack = - crossTrack;
