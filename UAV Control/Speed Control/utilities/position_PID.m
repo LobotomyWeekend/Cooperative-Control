@@ -4,7 +4,7 @@ function UAV = position_PID(UAV)
     persistent y_error_sum;
 
     % initialize persistent variables at beginning of simulation
-    if UAV.first_run_position_PID == 1
+    if UAV.init_position_PID == 0
         x_error_sum = 0;
         y_error_sum = 0;
     end

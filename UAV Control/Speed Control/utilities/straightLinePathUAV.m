@@ -1,4 +1,4 @@
-function [yawRef, UAV] = straightLinePathUAV(UAV, ref)
+function [yawRef, UAV] = straightLinePathUAV(UAV)
 %% Commands an ASV to follow a path
 % Takes a start and and end point of a straight line path, and controls the
 % yaw of the ASV in order for it to follow the path. This is done by
@@ -11,6 +11,8 @@ function [yawRef, UAV] = straightLinePathUAV(UAV, ref)
     if UAV.counter == 1
         error_crossTrack_int = 0;
     end
+    
+    ref = UAV.ref;
     
     %% Process Path
     % find gradient, y offset, and yaw angle of a straight line

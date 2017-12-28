@@ -10,6 +10,7 @@ function [UAV] = quad_variables(sim, vehicleID, initialPosition)
     
     % simulation parameters
     UAV.init = 0;     % used in initilization 
+    UAV.init_position_PID = 0;
     UAV.counter = 0; 
     UAV.section = 1; % path section for component paths
     UAV.complete = 0;

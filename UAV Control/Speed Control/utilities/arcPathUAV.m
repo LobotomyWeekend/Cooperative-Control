@@ -1,4 +1,4 @@
-function [yawRef, UAV] = arcPathUAV(UAV, ref)
+function [yawRef, UAV] = arcPathUAV(UAV)
     %% ARC PATH for ASV
     % Takes a start point and end point and commands the vehicle to follow
     % an arc between these points. Achieved by making the yawRef = tangent
@@ -11,6 +11,8 @@ function [yawRef, UAV] = arcPathUAV(UAV, ref)
     if UAV.counter == 1
         error_crossTrack_int = 0;
     end
+    
+    ref = UAV.ref;
     
     %% Process Path    
     % find arc properties

@@ -30,26 +30,18 @@ UAV = quad_dynamics_nonlinear(UAV);
 UAV.ref = ref;
 
 %% Run The Simulation Loop
-i = 1;
 for t = UAV.t_plot
     % Display Progression
     displayProgress(UAV);
     
     % Path Follower
-    [UAV, yawRefTEST] = pathFollowerUAV(UAV, ref);
+    UAV = pathFollowerUAV(UAV, ref);
 
     % Inner Loop Dynamics and Controllers
     UAV = innerLoopUAV(UAV);
     
+    % End condition 
     UAV = endConditionUAV(UAV);
-    
-    % TEST THE CONTROLLERS %
-%     uRef_plot(:,i) = [UAV.X_dot_GF_des; UAV.Y_dot_GF_des];
-%     yawRef_plot(i) = yawRefTEST;
-%     heading = atan2d(UAV.Y_dot, UAV.X_dot);
-%     heading_plot(i) = heading;
-    
-    i = i + 1;
 end
 clc
 disp('Finishing Up...');
@@ -58,37 +50,8 @@ disp('Finishing Up...');
 % trajectory
 plotTrajectory(UAV);
 % coordination state
-% plotCoordination(UAV);
+plotCoordination(UAV);
 % cross track error
 plotCrossTrackError(UAV);
-
-%% Analysis of controllers
-% figure('Name', 'Speed Plot');
-% subplot(2,1,1)
-% xlabel('Time (s)');
-% ylabel('X Speed (m/s)');
-% hold on
-% grid on
-% plot(UAV.t_plot, uRef_plot(1,:), '--');
-% plot(UAV.t_plot, UAV.X_dot_plot(1:length(UAV.t_plot)));
-% hold off
-% 
-% subplot(2,1,2)
-% xlabel('Time (s)');
-% ylabel('Y Speed (m/s)');
-% hold on
-% grid on
-% plot(UAV.t_plot, uRef_plot(2,:), '--');
-% plot(UAV.t_plot, UAV.Y_dot_plot(1:length(UAV.t_plot)));
-% hold off
-% 
-% figure('Name', 'Heading Plot');
-% xlabel('Time(s)');
-% ylabel('Heading (deg)');
-% hold on
-% grid on
-% plot(UAV.t_plot, yawRef_plot, '--');
-% plot(UAV.t_plot, heading_plot);
-% hold off
 
 clc;
