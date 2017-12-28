@@ -5,6 +5,13 @@ function [yawRef, UAV] = straightLinePathUAV(UAV, ref)
 % calculating the cross track translational error, as well as the error in
 % yaw, and updating the yaw reference with a PI controller.
 
+    %% Workspace
+    persistent error_crossTrack_int;
+    
+    if UAV.counter == 1
+        error_crossTrack_int = 0;
+    end
+    
     %% Process Path
     % find gradient, y offset, and yaw angle of a straight line
     [m, c, yawD] = processLine(ref.start,ref.finish);
@@ -50,28 +57,25 @@ function [yawRef, UAV] = straightLinePathUAV(UAV, ref)
 
     %% Integral of crossTrack Error
     % save to vehicle struct
-    UAV.error_crossTrack_int = UAV.error_crossTrack_int + UAV.error_crossTrack * UAV.Ts;
+    error_crossTrack_int = error_crossTrack_int + crossTrack * UAV.Ts;
 
     %% Proportional Error in Yaw
+    heading = atan2d(UAV.Y_dot, UAV.X_dot);
+    if heading < 0
+        heading = heading + 360;
+    end
     % save to vehicle struct
-    UAV.error_yaw = yawD - UAV.Yaw;
+    UAV.error_yaw = yawD - heading;
 
     %% Control Algorithm
     % gain values
-    K1 =  10.0; %yaw proportional
-    K2 =  5.0; %cross-track proportional
-    K4 =  0.2; %integral
+    K1 =  1.0; %yaw proportional
+    K2 =  -1.5; %cross-track proportional
+    K4 =  -1.0; %integral
     
-    % adjust for positive or negative yaw direction
-    if UAV.X > 0
-        direc = -1;
-    else
-        direc = 1;
-    end
-
     % control term
-    yawDel = K1*UAV.error_yaw + direc * K2 * crossTrack / ref.uRef ...
-             + direc * K4 * UAV.error_crossTrack_int;
+    yawDel = K1*UAV.error_yaw + K2 * crossTrack / ref.uRef ...
+             + K4 * error_crossTrack_int;
          
     % update yaw reference
     yawRef = yawD + yawDel;

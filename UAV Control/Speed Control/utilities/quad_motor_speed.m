@@ -1,67 +1,67 @@
-function Quad = quad_motor_speed(Quad)
+function UAV = quad_motor_speed(UAV)
 
     % Calculate motor speeds (rad/s)^2
-    w1 = Quad.U1/(4*Quad.KT) + Quad.U3/(2*Quad.KT*Quad.l) + Quad.U4/(4*Quad.Kd);
-    w2 = Quad.U1/(4*Quad.KT) - Quad.U2/(2*Quad.KT*Quad.l) - Quad.U4/(4*Quad.Kd);
-    w3 = Quad.U1/(4*Quad.KT) - Quad.U3/(2*Quad.KT*Quad.l) + Quad.U4/(4*Quad.Kd);
-    w4 = Quad.U1/(4*Quad.KT) + Quad.U2/(2*Quad.KT*Quad.l) - Quad.U4/(4*Quad.Kd);
+    w1 = UAV.U1/(4*UAV.KT) + UAV.U3/(2*UAV.KT*UAV.l) + UAV.U4/(4*UAV.Kd);
+    w2 = UAV.U1/(4*UAV.KT) - UAV.U2/(2*UAV.KT*UAV.l) - UAV.U4/(4*UAV.Kd);
+    w3 = UAV.U1/(4*UAV.KT) - UAV.U3/(2*UAV.KT*UAV.l) + UAV.U4/(4*UAV.Kd);
+    w4 = UAV.U1/(4*UAV.KT) + UAV.U2/(2*UAV.KT*UAV.l) - UAV.U4/(4*UAV.Kd);
 
     % Apply realistic motor speed limits
-    if w1 > Quad.max_motor_speed^2
-        w1 = Quad.max_motor_speed^2;
+    if w1 > UAV.max_motor_speed^2
+        w1 = UAV.max_motor_speed^2;
     end
-    if w1 < Quad.min_motor_speed^2
-        w1 = Quad.min_motor_speed^2;
-    end
-
-    if w2 > Quad.max_motor_speed^2
-        w2 = Quad.max_motor_speed^2;
-    end
-    if w2 < Quad.min_motor_speed^2
-        w2 = Quad.min_motor_speed^2;
+    if w1 < UAV.min_motor_speed^2
+        w1 = UAV.min_motor_speed^2;
     end
 
-    if w3 > Quad.max_motor_speed^2
-        w3 = Quad.max_motor_speed^2;
+    if w2 > UAV.max_motor_speed^2
+        w2 = UAV.max_motor_speed^2;
     end
-    if w3 < Quad.min_motor_speed^2
-        w3 = Quad.min_motor_speed^2;
-    end
-
-    if w4 > Quad.max_motor_speed^2
-        w4 = Quad.max_motor_speed^2;
-    end
-    if w4 < Quad.min_motor_speed^2
-        w4 = Quad.min_motor_speed^2;
+    if w2 < UAV.min_motor_speed^2
+        w2 = UAV.min_motor_speed^2;
     end
 
-    Quad.O1 = sqrt(w1);    % Front M
-    Quad.O2 = sqrt(w2);    % Right M
-    Quad.O3 = sqrt(w3);    % Rear M
-    Quad.O4 = sqrt(w4);    % Left M
+    if w3 > UAV.max_motor_speed^2
+        w3 = UAV.max_motor_speed^2;
+    end
+    if w3 < UAV.min_motor_speed^2
+        w3 = UAV.min_motor_speed^2;
+    end
 
-    Quad.O1_plot(Quad.counter) = Quad.O1;
-    Quad.O2_plot(Quad.counter) = Quad.O2;
-    Quad.O3_plot(Quad.counter) = Quad.O3;
-    Quad.O4_plot(Quad.counter) = Quad.O4;
+    if w4 > UAV.max_motor_speed^2
+        w4 = UAV.max_motor_speed^2;
+    end
+    if w4 < UAV.min_motor_speed^2
+        w4 = UAV.min_motor_speed^2;
+    end
+
+    UAV.O1 = sqrt(w1);    % Front M
+    UAV.O2 = sqrt(w2);    % Right M
+    UAV.O3 = sqrt(w3);    % Rear M
+    UAV.O4 = sqrt(w4);    % Left M
+
+    UAV.O1_plot(UAV.counter) = UAV.O1;
+    UAV.O2_plot(UAV.counter) = UAV.O2;
+    UAV.O3_plot(UAV.counter) = UAV.O3;
+    UAV.O4_plot(UAV.counter) = UAV.O4;
 
 
     %% Re-compute traditional control inputs
 
-    Quad.U1 = Quad.KT*(Quad.O1^2 + Quad.O2^2 + Quad.O3^2 + Quad.O4^2);
-    Quad.U1_plot(Quad.counter) = Quad.U1;
+    UAV.U1 = UAV.KT*(UAV.O1^2 + UAV.O2^2 + UAV.O3^2 + UAV.O4^2);
+    UAV.U1_plot(UAV.counter) = UAV.U1;
 
-    Quad.U2 = Quad.KT*Quad.l*(Quad.O4^2 - Quad.O2^2);
-    Quad.U2_plot(Quad.counter) = Quad.U2;
+    UAV.U2 = UAV.KT*UAV.l*(UAV.O4^2 - UAV.O2^2);
+    UAV.U2_plot(UAV.counter) = UAV.U2;
 
-    Quad.U3 = Quad.KT*Quad.l*(Quad.O1^2 - Quad.O3^2);
-    Quad.U3_plot(Quad.counter) = Quad.U3;
+    UAV.U3 = UAV.KT*UAV.l*(UAV.O1^2 - UAV.O3^2);
+    UAV.U3_plot(UAV.counter) = UAV.U3;
 
-    Quad.U4 = Quad.Kd*(Quad.O1^2 + Quad.O3^2 - Quad.O2^2 - Quad.O4^2);
-    Quad.U4_plot(Quad.counter) = Quad.U4;
+    UAV.U4 = UAV.Kd*(UAV.O1^2 + UAV.O3^2 - UAV.O2^2 - UAV.O4^2);
+    UAV.U4_plot(UAV.counter) = UAV.U4;
 
-    Quad.O = (Quad.O1 - Quad.O2 + Quad.O3 - Quad.O4);
-    Quad.O_plot(Quad.counter) = Quad.O;
+    UAV.O = (UAV.O1 - UAV.O2 + UAV.O3 - UAV.O4);
+    UAV.O_plot(UAV.counter) = UAV.O;
 
 
 end

@@ -1,4 +1,4 @@
-function [yawRef, UAV] = pathFollowerUAV(UAV, ref)
+function [UAV, yawRef] = pathFollowerUAV(UAV, ref)
 %% PATH FOLLOWING controller for UAV
 % Input 2 points and a path type, generates a path between them and 
 % calls the relevant function which commands the vehicle to follow 
@@ -6,14 +6,17 @@ function [yawRef, UAV] = pathFollowerUAV(UAV, ref)
 
 switch ref.pathType
     case 1 % straight line
-        [yawRef, UAV] = straightLinePath(UAV, ref);
+        [yawRef, UAV] = straightLinePathUAV(UAV, ref);
     case 2 % clockwise arc
-        [yawRef, UAV] = arcPath(UAV, ref);
+        [yawRef, UAV] = arcPathUAV(UAV, ref);
     case 3 % counter clockwise arc
-        [yawRef, UAV] = arcPath(UAV, ref);
+        [yawRef, UAV] = arcPathUAV(UAV, ref);
     otherwise
         error('Invalid path type')
 end
+
+%% Update Reference
+UAV = parameterizeSpeed(UAV, ref.uRefNominal, yawRef);
 
 %% Plotting terms
 % cross track error

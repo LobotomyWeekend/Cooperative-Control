@@ -9,26 +9,32 @@ hold on;
 grid on;
 
 % Number of samples to take
-num = length(V1.time);
+num1 = length(V1.time);
+num2 = length(V1.error_crossTrack_plot);
+if num1 < num2 
+    num = num1;
+else
+    num = num2;
+end
 
 
 %% Plotting
 % Vehicle 1
-plot(V1.time, V1.error_crossTrack_plot(1:num), 'DisplayName', V1.vehicleType);
+plot(V1.time(1:num), V1.error_crossTrack_plot(1:num), 'DisplayName', V1.vehicleType);
 
 % Vehicle 2
 if nargin >= 2
-    plot(V1.time, V2.error_crossTrack_plot(1:num), 'DisplayName', V2.vehicleType);
+    plot(V1.time(1:num), V2.error_crossTrack_plot(1:num), 'DisplayName', V2.vehicleType);
 end
 
 % Vehicle 3
 if nargin >= 3
-    plot(V1.time, V3.error_crossTrack_plot(1:num), 'DisplayName', V3.vehicleType);
+    plot(V1.time(1:num), V3.error_crossTrack_plot(1:num), 'DisplayName', V3.vehicleType);
 end
 
 % Vehicle 4
 if nargin >= 4
-    plot(V1.time, V4.error_crossTrack_plot(1:num), 'DisplayName', V4.vehicleType);
+    plot(V1.time(1:num), V4.error_crossTrack_plot(1:num), 'DisplayName', V4.vehicleType);
 end
 
 %% Formatting
