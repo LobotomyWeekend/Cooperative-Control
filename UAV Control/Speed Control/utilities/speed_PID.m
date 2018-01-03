@@ -72,4 +72,7 @@ function UAV = speed_PID(UAV)
     UAV.phi_des = cp + ci + cd; 
     UAV.phi_des = min(UAV.phi_max, max(-UAV.phi_max, UAV.phi_des));
 
+    % Speed Reference Plots
+    UAV.X_dot_GF_des_plot(UAV.counter) = UAV.X_dot_GF_des;
+    UAV.Y_dot_GF_des_plot(UAV.counter) = UAV.Y_dot_GF_des;
 end

@@ -100,9 +100,9 @@ function [UAV] = quad_variables(sim, vehicleID, initialPosition)
     UAV.yaw_desired = 0;      % desired value of yaw in GF (degrees)
 
     % Disturbance Variables
-    UAV.Z_dis = 0;            % disturbance in Z direction
-    UAV.X_dis = 0;            % disturbance in X direction
-    UAV.Y_dis = 0;            % disturbance in Y direction
+    UAV.Z_dis = 0.0;            % disturbance in Z direction
+    UAV.X_dis = 0.0;            % disturbance in X direction
+    UAV.Y_dis = 0.0;            % disturbance in Y direction
     UAV.phi_dis = 0;            % disturbance in Yaw direction
     UAV.theta_dis = 0;            % disturbance in Pitch direction
     UAV.psi_dis = 0;            % disturbance in Roll direction
@@ -124,9 +124,9 @@ function [UAV] = quad_variables(sim, vehicleID, initialPosition)
     UAV.U4_min = -2.25;% Quad.Kd*2*Quad.max_motor_speed^2
 
     % PID parameters
-    UAV.X_KP = 0.35;          % KP value in X position control
-    UAV.X_KI = 0.25;            % KI value in X position control
-    UAV.X_KD = -0.35;         % KD value in X position control
+    UAV.X_KP = 0.45;          % KP value in X position control
+    UAV.X_KI = 0.05;            % KI value in X position control
+    UAV.X_KD = -0.10;         % KD value in X position control
     UAV.X_KI_lim = 0.25;         % Error to start calculating integral term
 
     UAV.Y_KP = UAV.X_KP;          % KP value in Y position control
@@ -135,7 +135,7 @@ function [UAV] = quad_variables(sim, vehicleID, initialPosition)
     UAV.Y_KI_lim = UAV.X_KI_lim;         % Error to start calculating integral term
 
     UAV.Z_KP = 10/1.7;    % KP value in altitude control
-    UAV.Z_KI = 0*3;    % KI value in altitude control
+    UAV.Z_KI = 0.3;    % KI value in altitude control
     UAV.Z_KD = -10/1.980;  % KD value in altitude control
     UAV.Z_KI_lim = .25;         % Error to start calculating integral term
 

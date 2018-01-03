@@ -17,12 +17,12 @@ sim.t = 0:sim.Ts:sim.Tend;
 
 %% Path Variables & References
 % Vehicle 1
-ref1.pathType = 3;
+ref1.pathType = 2;
 ref1.start = [0; 0];
 ref1.finish = [20; 0];
 ref1.uRefNominal = 0.5;
 % Vehicle 2
-ref2.pathType = 3;
+ref2.pathType = 2;
 ref2.start = [2; 0];
 ref2.finish = [18; 0];
 ref2.uRefNominal = 0.5;

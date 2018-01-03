@@ -14,15 +14,14 @@ vCorr = 0.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 70;
+sim.Tend = 120;
 
 %% Path Variables & References
-ref.pathType = 2;
+ref.pathType = 1;
 ref.start = [0; 0]; % also vehicle's initial position
-ref.finish = [20; 0];
+ref.finish = [200; 200];
 ref.uRefNominal = 0.5;
 ref.uRef = 0.5;
-ref.yawRef = 210;
 
 %% Initialize Vehicle
 UAV = quad_variables(sim,ref.start);
@@ -53,5 +52,7 @@ plotTrajectory(UAV);
 plotCoordination(UAV);
 % cross track error
 plotCrossTrackError(UAV);
+% control terms
+PlotUAVCommands(UAV);
 
 clc;

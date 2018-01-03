@@ -54,6 +54,7 @@ function UAV = quad_dynamics_nonlinear(UAV)
     UAV.Z_plot(UAV.counter) = -UAV.Z;
     UAV.Z_ref_plot(UAV.counter) = -UAV.Z_des;
     UAV.Z_dot_plot(UAV.counter) = -UAV.Z_dot;
+    UAV.Z_des_GF_plot(UAV.counter) = -UAV.Z_des_GF;
 
     UAV.X_plot(UAV.counter) = UAV.X;
     UAV.X_ref_plot(UAV.counter) = UAV.X_des;
@@ -74,7 +75,7 @@ function UAV = quad_dynamics_nonlinear(UAV)
     
     % Absolute XY velocity
     UAV.Abs_Vel_plot(UAV.counter) = sqrt(UAV.X_dot^2 + UAV.Y_dot^2);
-    
+     
     UAV.gamma_plot(UAV.counter) = UAV.gamma;
         
 

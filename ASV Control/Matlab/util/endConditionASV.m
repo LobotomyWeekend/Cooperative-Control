@@ -8,14 +8,9 @@ function [ref, ASV] = endConditionASV(ASV, ref, complete)
 %     ks = 0.01;
     
     % once ASV reaches finish point, turn on end conditions
-    if ASV.gamma >= complete
+    if ASV.gamma >= complete && ASV.counter > 100
         ASV.latch = 1;
     end    
-    
-    % alter uRef, lowest near finish
-    if ASV.latch == 1
-        % UNKNOWN
-    end
-    
+       
    
 end

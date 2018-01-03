@@ -8,7 +8,7 @@ function [yawRef, UAV] = arcPathUAV(UAV)
     %% Workspace
     persistent error_crossTrack_int;
     
-    if UAV.counter == 1
+    if UAV.init == 0
         error_crossTrack_int = 0;
     end
     

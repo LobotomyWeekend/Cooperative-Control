@@ -11,14 +11,14 @@ complete = 1.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 60;
+sim.Tend = 150;
 sim.time = 0:sim.Ts:sim.Tend;
 
 %% UAV Setup
 % Vehicle 1
-ref1.pathType = 1;
+ref1.pathType = 3;
 ref1.start = [0; 0];
-ref1.finish = [20; 20];
+ref1.finish = [20; 0];
 % constant speed reference
 ref1.uRefNominal = 0.5;
 % initialize vehicle structure
@@ -28,29 +28,29 @@ UAV1.ref = ref1;
 
 %% ASV Setup
 % waypoints
-ref2.pathType = 1;
-ref2.start = [5;0];
-ref2.finish = [25;20];
+ref2.pathType = 3;
+ref2.start = [2; 0];
+ref2.finish = [18; 0];
 % constant speed reference
 ref2.uRefNominal = 0.5;
 % initial values
-yawInit = 45;
+yawInit = 0;
 % initialize vehicle structure
 ASV2 = ASV_variables(sim, ref2.start, yawInit, 2);
 ASV2.ref = ref2;
 
-%% Constants (SIMPLIFIED SIMULATION)
-vCorr = [0;0];
-ref2.uRef = ref2.uRefNominal;
+vCorr = [0,0];
 
-
+i = 1;
 %% SIMULATION
 for t =  sim.time
     % Display Progression
     displayProgress(UAV1);
     
     % Coordination
-    vCorr = coordinationMaster(UAV1, ASV2);
+    if UAV1.counter > 100
+        vCorr = coordinationMaster(UAV1, ASV2);
+    end
     
     % Update Speed Reference
     UAV1.ref.uRef = ref1.uRefNominal + vCorr(1);
@@ -60,13 +60,16 @@ for t =  sim.time
     UAV1 = pathFollowerUAV(UAV1, ref1);
     [ref2.yawRef, ASV2] = pathFollowerASV(ASV2, ref2);
     
-%     % End Condition
-%     UAV1 = endConditionUAV(UAV1);
-%     [ref2, ASV2] = endConditionASV(ASV2, ref2, complete);
+    % End Condition
+    UAV1 = endConditionUAV(UAV1);
+    [ref2, ASV2] = endConditionASV(ASV2, ref2, complete);
 
     % Simulate Vehicles
     UAV1 = innerLoopUAV(UAV1);
     ASV2 = innerLoopASV(ref2, ASV2);
+    
+    vCorr_hist(i,:) = vCorr;
+    i = i + 1;
     
 end
 clc
@@ -79,3 +82,14 @@ plotTrajectory(UAV1, ASV2);
 plotCoordination(UAV1, ASV2);
 % cross track error
 plotCrossTrackError(UAV1, ASV2);
+
+%% TEST PLOTS
+figure('Name','Correction velocity');
+hold on
+grid on
+plot(sim.time, vCorr_hist(:,1));
+plot(sim.time, vCorr_hist(:,2));
+legend('UAV','ASV');
+hold off
+
+clc
