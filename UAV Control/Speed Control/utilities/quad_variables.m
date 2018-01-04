@@ -124,10 +124,10 @@ function [UAV] = quad_variables(sim, vehicleID, initialPosition)
     UAV.U4_min = -2.25;% Quad.Kd*2*Quad.max_motor_speed^2
 
     % PID parameters
-    UAV.X_KP = 0.45;          % KP value in X position control
-    UAV.X_KI = 0.05;            % KI value in X position control
+    UAV.X_KP = 2.5;          % KP value in X position control
+    UAV.X_KI = 0.5;            % KI value in X position control
     UAV.X_KD = -0.10;         % KD value in X position control
-    UAV.X_KI_lim = 0.25;         % Error to start calculating integral term
+    UAV.X_KI_lim = 0.0;         % Error to start calculating integral term
 
     UAV.Y_KP = UAV.X_KP;          % KP value in Y position control
     UAV.Y_KI = UAV.X_KI;            % KI value in Y position control

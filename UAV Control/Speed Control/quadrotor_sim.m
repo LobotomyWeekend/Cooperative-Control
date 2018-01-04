@@ -14,17 +14,21 @@ vCorr = 0.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 120;
+sim.Tend = 60;
 
 %% Path Variables & References
 ref.pathType = 1;
 ref.start = [0; 0]; % also vehicle's initial position
-ref.finish = [200; 200];
+ref.finish = [0; -50];
 ref.uRefNominal = 0.5;
 ref.uRef = 0.5;
 
+waypoints = [0,0,0;0,-50,-51;1,1,1];
+ref.waypoints = waypoints;
+
 %% Initialize Vehicle
 UAV = quad_variables(sim,ref.start);
+UAV.X = -0.1;
 UAV = quad_dynamics_nonlinear(UAV);
 UAV.ref = ref;
 
@@ -53,6 +57,13 @@ plotCoordination(UAV);
 % cross track error
 plotCrossTrackError(UAV);
 % control terms
-PlotUAVCommands(UAV);
+% PlotUAVCommands(UAV);
+
+%% TEST
+figure('Name','Heading');
+hold on
+plot(UAV.t_plot, UAV.heading_ref_plot, '--');
+plot(UAV.t_plot, UAV.heading_plot);
+hold off
 
 clc;

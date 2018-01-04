@@ -19,16 +19,16 @@ sim.Tend = 360;
 sim.time = 0:sim.Ts:sim.Tend;
 
 % waypoints
-ref.pathType = 3;
+ref.pathType = 1;
 ref.start = [0;0];
-ref.finish = [20;0];
+ref.finish = [20;20];
 
 % constant speed reference
 ref.uRef = 0.5;
 ref.uRefNominal = 0.5;
 
 % initial yaw value
-yawInit = 270; 
+yawInit = 45; 
 
 %% Initialize Vehicles
 % establish structure

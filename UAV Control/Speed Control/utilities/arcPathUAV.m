@@ -1,4 +1,4 @@
-function [yawRef, UAV] = arcPathUAV(UAV)
+function [heading_ref, UAV] = arcPathUAV(UAV)
     %% ARC PATH for ASV
     % Takes a start point and end point and commands the vehicle to follow
     % an arc between these points. Achieved by making the yawRef = tangent
@@ -7,11 +7,9 @@ function [yawRef, UAV] = arcPathUAV(UAV)
     
     %% Workspace
     persistent error_crossTrack_int;
-    
     if UAV.init == 0
         error_crossTrack_int = 0;
     end
-    
     ref = UAV.ref;
     
     %% Process Path    
@@ -27,9 +25,9 @@ function [yawRef, UAV] = arcPathUAV(UAV)
     
     % find desired yaw
     if ref.pathType == 2 % clockwise arc
-        yawD = theta - 90;
+        heading_desired = theta - 90;
     elseif ref.pathType == 3 % counter clockwise arc
-        yawD = theta + 90;
+        heading_desired = theta + 90;
     end
     
     %% Error
@@ -46,19 +44,20 @@ function [yawRef, UAV] = arcPathUAV(UAV)
     
     % calculate heading (not equivalent to yaw in UAV)
     heading = atan2d(UAV.Y_dot, UAV.X_dot);
+    UAV.heading_plot(UAV.counter) = heading;
     
     % yaw error
-    UAV.error_yaw = yawD - heading;
+    UAV.error_yaw = heading_desired - heading;
     
     %% Integral
-    error_crossTrack_int = error_crossTrack_int + UAV.error_crossTrack * UAV.Ts;   
+    error_crossTrack_int = error_crossTrack_int + UAV.error_crossTrack * UAV.Ts;  
     
     %% Provide Reference
-    K1 = 0.1; % proportional yaw error
-    K2 = - 100;  % proportional cross track error
-    K3 = - 10; %integral cross 
+    K1 = -1/180; % proportional heading error
+    K2 = -15;  % proportional cross track error
+    K3 = -1; %integral cross 
     
-    yawRef = yawD + K1 * UAV.error_yaw + K2 * UAV.error_crossTrack + K3 * error_crossTrack_int;
+    heading_ref = heading_desired + K1 * UAV.error_yaw + K2 * UAV.error_crossTrack + K3 * error_crossTrack_int;
     
     
     %% Coordination state

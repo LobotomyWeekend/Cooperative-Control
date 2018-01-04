@@ -8,7 +8,7 @@ function [yawRef, UAV] = straightLinePathUAV(UAV)
     %% Workspace
     persistent error_crossTrack_int;
     
-    if UAV.counter == 1
+    if UAV.counter == 1 || UAV.section_init == 0
         error_crossTrack_int = 0;
     end
     
@@ -41,7 +41,7 @@ function [yawRef, UAV] = straightLinePathUAV(UAV)
 
     % Clockwise from path in defined as negative crossTrack error
     
-    if m ~= Inf % standard case
+    if abs(m) ~= Inf % standard case
         path = m*UAV.X + c;
         if UAV.Y < path
             crossTrack = - crossTrack;
@@ -63,17 +63,18 @@ function [yawRef, UAV] = straightLinePathUAV(UAV)
 
     %% Proportional Error in Yaw
     heading = atan2d(UAV.Y_dot, UAV.X_dot);
-    if heading < 0
-        heading = heading + 360;
-    end
+%     if heading < 0
+%         heading = heading + 360;
+%     end
+    UAV.heading_plot(UAV.counter) = heading;
     % save to vehicle struct
     UAV.error_yaw = yawD - heading;
 
     %% Control Algorithm
     % gain values
-    K1 =  1.0; %yaw proportional
-    K2 =  -1.5; %cross-track proportional
-    K4 =  -1.0; %integral
+    K1 =  0; %yaw proportional
+    K2 =  -10; %cross-track proportional
+    K4 =  -1; %integral
     
     % control term
     yawDel = K1*UAV.error_yaw + K2 * crossTrack / ref.uRef ...
@@ -81,15 +82,20 @@ function [yawRef, UAV] = straightLinePathUAV(UAV)
          
     % update yaw reference
     yawRef = yawD + yawDel;
+    if yawRef < -180
+        yawRef = yawRef + 360;
+    elseif yawRef > 180
+        yawRef = yawRef - 360;
+    end
     
     %% Coordination state
     % total path length
     L    = sqrt((ref.finish(1,1) - ref.start(1,1))^2 +(ref.finish(2,1) - ref.start(2,1))^2);
-    
     % portion of path covered
     Lpos = sqrt((UAV.X - ref.start(1,1))^2 +(UAV.Y - ref.start(2,1))^2);
-    
     % gamma defined as fraction of total path length in range [0,1]
     UAV.gamma = Lpos/L;
+    
+    %% TEST PLOTTING
     
 end

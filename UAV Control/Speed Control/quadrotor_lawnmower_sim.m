@@ -10,7 +10,7 @@ vCorr = 0.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 160;
+sim.Tend = 500;
 
 %% Path Variables & References
 % waypoints
@@ -23,6 +23,7 @@ segments = 5;
 % nominal speed
 ref.uRefNominal = 0.25;
 ref.uRef = ref.uRefNominal;
+ref.waypoints = wayPoints;
 
 %% Initialize Vehicle
 UAV = quad_variables(sim,ref.start);
@@ -30,7 +31,6 @@ UAV = quad_dynamics_nonlinear(UAV);
 UAV.ref = ref;
 
 %% Run The Simulation Loop
-i = 1;
 for t = UAV.t_plot
     % Display Progression
     displayProgress(UAV);
@@ -46,13 +46,9 @@ for t = UAV.t_plot
     
     % Inner Loop Dynamics and Controllers
     UAV = innerLoopUAV(UAV);
-    
-    %% TESTS
-    refHist(i) = ref;
-    
-    i=i+1;
-    
+        
 end
+
 clc
 disp('Finishing Up...');
 %% Plots
@@ -62,8 +58,13 @@ plotTrajectory(UAV);
 plotCoordination(UAV);
 % cross track error
 plotCrossTrackError(UAV);
-clc
 
-%% TEST PLOTS
-figure('Name', 'PathType')
-plot(UAV.time(1:length(UAV.time)-1), [refHist.pathType]);
+%% TEST
+figure('Name','Heading');
+hold on
+plot(UAV.t_plot, UAV.heading_ref_plot, '--');
+plot(UAV.t_plot, UAV.heading_plot);
+hold off
+
+
+clc

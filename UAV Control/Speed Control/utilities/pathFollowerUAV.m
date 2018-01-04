@@ -6,23 +6,27 @@ function [UAV] = pathFollowerUAV(UAV, ref)
 
 switch ref.pathType
     case 1 % straight line
-        [yawRef, UAV] = straightLinePathUAV(UAV);
+        [heading_ref, UAV] = straightLinePathUAV(UAV);
     case 2 % clockwise arc
-        [yawRef, UAV] = arcPathUAV(UAV);
+        [heading_ref, UAV] = arcPathUAV(UAV);
     case 3 % counter clockwise arc
-        [yawRef, UAV] = arcPathUAV(UAV);
+        [heading_ref, UAV] = arcPathUAV(UAV);
     otherwise
         error('Invalid path type')
 end
 
 %% Update Reference
-UAV = parameterizeSpeed(UAV, yawRef);
+UAV = parameterizeSpeed(UAV, heading_ref);
 
 %% Plotting terms
+% yaw ref hist
+UAV.heading_ref_plot(UAV.counter) = heading_ref;
 % cross track error
 UAV.error_crossTrack_plot(UAV.counter) = UAV.error_crossTrack;
 % coordination state
 UAV.gamma_plot(UAV.counter) = UAV.gamma;
+
+UAV.section_init = 1;
 
 end
 

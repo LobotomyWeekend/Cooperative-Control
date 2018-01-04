@@ -40,7 +40,7 @@ function [ref, V] = componentPath(V, wayPoints, ref)
     end % end Sect < length(wayPoints)
         
     
-    
+    V.section_init = 0;
 
 
 end
