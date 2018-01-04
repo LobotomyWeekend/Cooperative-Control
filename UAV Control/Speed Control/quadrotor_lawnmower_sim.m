@@ -10,7 +10,7 @@ vCorr = 0.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 500;
+sim.Tend = 160;
 
 %% Path Variables & References
 % waypoints
@@ -26,7 +26,7 @@ ref.uRef = ref.uRefNominal;
 ref.waypoints = wayPoints;
 
 %% Initialize Vehicle
-UAV = quad_variables(sim,ref.start);
+UAV = quad_variables(sim,1,ref.start);
 UAV = quad_dynamics_nonlinear(UAV);
 UAV.ref = ref;
 

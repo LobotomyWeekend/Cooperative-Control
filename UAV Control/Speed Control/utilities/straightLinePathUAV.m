@@ -7,11 +7,9 @@ function [yawRef, UAV] = straightLinePathUAV(UAV)
 
     %% Workspace
     persistent error_crossTrack_int;
-    
     if UAV.counter == 1 || UAV.section_init == 0
         error_crossTrack_int = 0;
     end
-    
     ref = UAV.ref;
     
     %% Process Path

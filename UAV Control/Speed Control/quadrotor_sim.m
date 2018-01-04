@@ -17,18 +17,17 @@ sim.Ts = 0.01;
 sim.Tend = 60;
 
 %% Path Variables & References
-ref.pathType = 1;
+ref.pathType = 2;
 ref.start = [0; 0]; % also vehicle's initial position
-ref.finish = [0; -50];
+ref.finish = [20; 0];
 ref.uRefNominal = 0.5;
 ref.uRef = 0.5;
 
-waypoints = [0,0,0;0,-50,-51;1,1,1];
-ref.waypoints = waypoints;
+ref.waypoints = ref_waypoints(ref);
 
 %% Initialize Vehicle
 UAV = quad_variables(sim,ref.start);
-UAV.X = -0.1;
+UAV.X = 0.1;
 UAV = quad_dynamics_nonlinear(UAV);
 UAV.ref = ref;
 

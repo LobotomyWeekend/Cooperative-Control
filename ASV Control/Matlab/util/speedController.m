@@ -6,8 +6,7 @@ function ASV = speedController(ASV, uRef)
     KSat = 60;
 
     % Absolute Velocity
-    absVel = sign(ASV.u)*sqrt((ASV.u*cosd(ASV.Yaw))^2 ...
-             + (ASV.v*sind(ASV.Yaw))^2);
+    absVel = sqrt(ASV.X_dot^2 + ASV.Y_dot^2);
     
     % Calculate Error
     % proportional

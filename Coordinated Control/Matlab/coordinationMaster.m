@@ -6,7 +6,7 @@ function [vcorr] = coordinationMaster(V1, V2, V3, V4)
     
     %% Setup    
     % gain values
-    ksync = 1;
+    ksync = V1.ref.uRefNominal;
     ks = 0.01;
     
     % number of vehicles

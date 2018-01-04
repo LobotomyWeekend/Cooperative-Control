@@ -6,7 +6,7 @@ function plotTrajectoryDesired(ref, waypoints)
 % Check if component path
 if nargin > 1
     % store waypoints as
-    for i = 1:(length(waypoints) - 1)
+    for i = 1:(length(waypoints) - 2)
         % generate a ref struct of each component line
         ref_waypoint_i.pathType = waypoints(3,i);
         ref_waypoint_i.start = waypoints(1:2,i);

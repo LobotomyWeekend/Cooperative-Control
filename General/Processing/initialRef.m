@@ -6,4 +6,6 @@ function ref = initialRef(waypoints)
     ref.finish = waypoints(1:2,2);
     % path type
     ref.pathType = waypoints(3,1);
+    %waypoints
+    ref.waypoints = waypoints;
 end
