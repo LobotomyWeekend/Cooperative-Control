@@ -29,13 +29,18 @@ function [ref, V] = componentPath(V, wayPoints, ref)
         ref.start = wayPoints(1:2, V.section);
         ref.finish = wayPoints(1:2, V.section + 1);
         ref.pathType = wayPoints(3, V.section);
+        
+        % Initialize PID controllers again
+        if V.vehicleType == "UAV"
+            V.init = 0;
+        end
     else
         disp('Path Completed');
                     
     end % end Sect < length(wayPoints)
         
     
-    
+    V.section_init = 0;
 
 
 end

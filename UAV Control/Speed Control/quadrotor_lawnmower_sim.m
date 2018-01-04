@@ -1,9 +1,4 @@
-%% Simulates quadrotor on Lawnmower Path
-% The path's waypoints are defined by the function waypointsLawnmower,
-% which accepts arguments; swath length, arc diameter, and number of path
-% segments. The vehicle is then simulated and commanded to follow this
-% path. Once the simulation has completed (reached Tend) it will plot
-% trajectory, coordination state, and cross track error.
+%% Simulates quadrotor dynamics and implements a control algorithm
 
 %% Initialize Workspace
 clear all;
@@ -11,51 +6,51 @@ close all;
 clc;
 
 % constants
-complete = 1.0;
 vCorr = 0.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 1440;
+sim.Tend = 500;
 
 %% Path Variables & References
 % waypoints
-length_line = 50;
+length_line = 20;
 diameter_arc = 20;
-segments = 20;
+segments = 5;
 
 [wayPoints, ref] = waypointsLawnmower(length_line, diameter_arc, segments);
 
 % nominal speed
-ref.uRefNominal = 0.5;
+ref.uRefNominal = 0.25;
+ref.uRef = ref.uRefNominal;
+ref.waypoints = wayPoints;
 
 %% Initialize Vehicle
 UAV = quad_variables(sim,ref.start);
 UAV = quad_dynamics_nonlinear(UAV);
+UAV.ref = ref;
 
 %% Run The Simulation Loop
 for t = UAV.t_plot
+    % Display Progression
+    displayProgress(UAV);
+    
     % Lawnmower 
     if UAV.gamma >= 1
         [ref, UAV] = componentPath(UAV, wayPoints, ref);
+        UAV.ref = ref;
     end
-    
-    % Coordination
-    vCorr = coordinationMaster(UAV);
       
     % Path Follower
-    UAV = lookaheadPathFollowerUAV(UAV, ref, vCorr);
+    UAV = pathFollowerUAV(UAV, UAV.ref);
     
     % Inner Loop Dynamics and Controllers
     UAV = innerLoopUAV(UAV);
-    
-    %% Display Progression
-    clc
-    progress = floor(UAV.counter / length(UAV.t_plot) * 100);
-    display = [num2str(progress), '% progression'];
-    disp(display);
+        
 end
 
+clc
+disp('Finishing Up...');
 %% Plots
 % trajectory
 plotTrajectory(UAV);
@@ -63,3 +58,13 @@ plotTrajectory(UAV);
 plotCoordination(UAV);
 % cross track error
 plotCrossTrackError(UAV);
+
+%% TEST
+figure('Name','Heading');
+hold on
+plot(UAV.t_plot, UAV.heading_ref_plot, '--');
+plot(UAV.t_plot, UAV.heading_plot);
+hold off
+
+
+clc
