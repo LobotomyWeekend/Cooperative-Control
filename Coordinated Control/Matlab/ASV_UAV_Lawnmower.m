@@ -14,12 +14,12 @@ complete = 1.0;
 
 %% Simulation Time
 sim.Ts = 0.01;
-sim.Tend = 720;
+sim.Tend = 650;
 sim.time = 0:sim.Ts:sim.Tend;
 
 %% Waypoints + Refs
 % waypoints
-length_line = 10;
+length_line = 20;
 diameter_arc_min = 25;
 offset = 5;
 segments = 5;
@@ -118,6 +118,9 @@ grid on
 plot(sim.time, vCorr_hist(:,1));
 plot(sim.time, vCorr_hist(:,2));
 legend('UAV','ASV');
+xlabel('Time (s)');
+ylabel('V_{corr} (m s^{-1})');
+title('ASV-UAV Cooperation Correction Velocities');
 hold off
 
 clc
