@@ -61,14 +61,5 @@ plotTrajectory(ASV1);
 plotCoordination(ASV1);
 plotCrossTrackError(ASV1);
 
-% figure('Name','Command Hist');
-% hold on;
-% grid on;
-% subplot(2,1,1);
-% plot(ASV1.time, ASV1.speedCommand_plot(1:length(ASV1.time)));
-% subplot(2,1,2);
-% plot(ASV1.time, ASV1.headingCommand_plot(1:length(ASV1.time)));
-% hold off;
-
 clc
 beep
