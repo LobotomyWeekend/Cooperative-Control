@@ -21,11 +21,13 @@ ref1.pathType = 2;
 ref1.start = [0; 0];
 ref1.finish = [20; 0];
 ref1.uRefNominal = 0.5;
+ref1.waypoints = ref_waypoints(ref1);
 % Vehicle 2
 ref2.pathType = 2;
 ref2.start = [2; 0];
 ref2.finish = [18; 0];
 ref2.uRefNominal = 0.5;
+ref2.waypoints = ref_waypoints(ref2);
 
 %% Initialize Vehicles
 % UAV1
