@@ -1,40 +1,66 @@
 %% THRUST OF ONE THRUSTER WITH GIVEN RPM
 function F = singleThruster(RPM, ASV, j)
+%% Function to simulate the behavior of a Medusa Thruster.
+% Model taken from previous work carried out by students at ISR based on
+% experimental results.
+% A transfer function is applied, this takes the previous up to 100 time steps
+% of RPM as inputs.
+% Current version ignores time delay (tau) due to previous code errors.s
              
-    % From Mask
+    %% Gain Values
     K0 = 7.2115;
+    K1 = 45;
     tau = 0.346;
     eta = 4/(1500^2);
     
-    % Saturation [-100,100] and round
+    %% Saturation [-100,100] and round
     if abs(RPM) > 100
         RPM = round(100*sign(RPM));
     else
         RPM = round(RPM);
     end
     
-    % Apply inverse Laplace of TF K0/(s + K0)
-    time = ASV.time(1 : ASV.counter);
-    sys = tf(K0, [1, K0]);
+    %% Transfer Function
+    % Only run transfer function over 100 samples for speed
+    % number of samples up to current time
+    no_samples = ASV.counter;
+    % if less than 100, run over current length
+    if ASV.counter < 101
+        min = 1;
+    else
+        min = ASV.counter - 100;
+    end
+    % generate a time vector
+    time = ASV.time(min : no_samples);
+    % set the first element in time vector = 0 to avoid errors
+    time = time - time(1);
     
+    % define the transfer function
+    sys = tf(K0, [1, K0]);
+  
+    % if too few samples for lsim, assume zero output value
     if ASV.counter <= 2
-        TF = 0;
+        TF_end = 0;
         ASV.RPM_plot(:,ASV.counter) = [0;0];
     else
-        u    = transpose(ASV.RPM_plot(j, :));
+        % extract the input vector from RPM_plot
+        u    = transpose(ASV.RPM_plot(j, min : no_samples));
+        % calculate response
         y    = lsim(sys, u, time);
-        TF   = y(end);
+        % extract response at current time
+        TF_end = y(end);
     end
         
-    % Saturation [-100,100] and round
-    if abs(TF) > 100
-        TF = round(100*sign(TF));
+    %% Saturation [-100,100] and round
+    if abs(TF_end) > 100
+        TF_end = round(100*sign(TF_end));
     else
-        TF = round(TF);
+        TF_end = round(TF_end);
     end
     
-    % Apply internal gain
-    RPM = 45*TF;
+    %% Output
+    % Apply gain
+    RPM = K1 * TF_end;
     
     % Convert to Force
     F = eta*abs(RPM)*RPM;

@@ -4,26 +4,30 @@
 % dynamically.
 clear all;
 close all;
+clc
 
 %% Simulation Inputs
 % time
 sim.Ts   = 0.1;
-sim.Tend = 360;
+sim.Tend = 60;
 sim.time = 0:sim.Ts:sim.Tend;
 
 % waypoints
+ref.pathType = 1;
 ref.start = [0;0];
 ref.finish = [0;10];
 
 % Initial Reference
 ref.uRef = 0;
 ref.yawRef = 0;
+ref.waypoints = ref_waypoints(ref);
 
 %% Initialize Vehicles
 % initial yaw value
 yawInit = 0; 
 % establish structure
 ASV1 = ASV_variables(sim, ref.start, yawInit, 1);
+ASV1.ref = ref;
 
 %% Constants
 complete = 1;
@@ -66,7 +70,6 @@ for t = sim.time
     
     i = i+1;
 end
-
 %% Plotting
 hold on
 grid on;

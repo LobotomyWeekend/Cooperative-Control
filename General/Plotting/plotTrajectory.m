@@ -7,13 +7,39 @@ function plotTrajectory(V1,V2,V3,V4)
     figure('Name', 'Trajectory');
     hold on;
     grid on;
-    axis('equal');
+    
+%     % Axis lengths
+%     % append waypoints
+%     if nargin == 1
+%         wp = [V1.ref.waypoints];
+%     elseif nargin == 2
+%         wp = [V1.ref.waypoints,V2.ref.waypoints];
+%     elseif nargin == 3
+%         wp = [V1.ref.waypoints,V2.ref.waypoints,V3.ref.waypoints];
+%     elseif nargin == 4
+%         wp = [V1.ref.waypoints,V2.ref.waypoints,V3.ref.waypoints,V4.ref.waypoints];
+%     end
+%     
+%     x_min = min(wp(1,:));
+%     x_max = max(wp(1,:));
+%     if x_min == x_max
+%         x_max = x_min + 10;
+%     end
+%     y_min = min(wp(2,:));
+%     y_max = max(wp(2,:));
+%     if y_min == y_max
+%         y_max = y_min + 10;
+%     end
+%     
+%     axis([x_min x_max y_min y_max -10 10])
+%     view(3)
+    
     
     %% Plot Vehicle 1
     if V1.vehicleType == "UAV" % Plot Quadcopter
         
         % Desired Trajectory UAV 1
-        plotTrajectoryDesired(V1.ref, V1.ref.waypoints);          
+        plotTrajectoryDesired(V1.ref, V1.vehicleType, V1.ref.waypoints);          
         % Followed Trajectory UAV 1
         plot3(V1.X_plot, V1.Y_plot, V1.Z_plot, 'Color', 'k', 'DisplayName',...
             'Simulated Path UAV 1');
@@ -21,7 +47,7 @@ function plotTrajectory(V1,V2,V3,V4)
     elseif V1.vehicleType == "ASV" % Plot Marine Vehicle
         
        % Desired Trajectory ASV 1
-       plotTrajectoryDesired(V1.ref, V1.ref.waypoints);
+       plotTrajectoryDesired(V1.ref, V1.vehicleType, V1.ref.waypoints);
        % Followed Trajectory ASV 1
        plot3(V1.X_plot, V1.Y_plot, zeros(1,length(V1.X_plot)), 'Color', 'k', ...
            'DisplayName', 'Simulated Path ASV 1');
@@ -35,7 +61,7 @@ function plotTrajectory(V1,V2,V3,V4)
         if V2.vehicleType == "UAV" % plot quadcopter
             
             % Desired Trajectory UAV 2
-            plotTrajectoryDesired(V2.ref, V2.ref.waypoints);            
+            plotTrajectoryDesired(V2.ref, V2.vehicleType, V2.ref.waypoints);            
             % Followed Trajectory UAV 2
             plot3(V2.X_plot, V2.Y_plot, V2.Z_plot,'DisplayName',...
                 'Simulated Path UAV 2');
@@ -43,7 +69,7 @@ function plotTrajectory(V1,V2,V3,V4)
         elseif V2.vehicleType == "ASV" % plot marine vehicle
             
             % Desired Trajectory ASV 2
-            plotTrajectoryDesired(V2.ref, V2.ref.waypoints);  
+            plotTrajectoryDesired(V2.ref, V2.vehicleType, V2.ref.waypoints);  
             % Followed Trajectory ASV 2
             plot3(V2.X_plot, V2.Y_plot, zeros(1,length(V2.X_plot)), ...
                 'DisplayName', 'Simulated Path ASV 2');
@@ -57,7 +83,7 @@ function plotTrajectory(V1,V2,V3,V4)
         if V3.vehicleType == "UAV" % plot quadcopter
             
             % Desired Trajectory UAV 3
-            plotTrajectoryDesired(V3.ref, V3.ref.waypoints);              
+            plotTrajectoryDesired(V3.ref, V3.vehicleType, V3.ref.waypoints);              
             % Followed Trajectory UAV 3
             plot3(V3.X_plot, V3.Y_plot, V3.Z_plot, 'DisplayName',...
                 'Simulated Path UAV 3');
@@ -65,7 +91,7 @@ function plotTrajectory(V1,V2,V3,V4)
         elseif V3.vehicleType == "ASV" % plot marine vehicle
             
             % Desired Trajectory ASV 3
-            plotTrajectoryDesired(V3.ref, V3.ref.waypoints);  
+            plotTrajectoryDesired(V3.ref, V3.vehicleType, V3.ref.waypoints);  
             % Followed Trajectory ASV 3
             plot3(V3.X_plot, V3.Y_plot, zeros(1,length(V3.X_plot)), ...
                 'DisplayName', 'Simulated Path ASV 3');
@@ -80,7 +106,7 @@ function plotTrajectory(V1,V2,V3,V4)
         if V4.vehicleType == "UAV" % plot quadcopter
             
             % Desired Path UAV 4
-            plotTrajectoryDesired(V4.ref, V4.ref.waypoints);        
+            plotTrajectoryDesired(V4.ref, V4.vehicleType, V4.ref.waypoints);        
             % Followed Path UAV 4
             plot3(V4.X_plot, V4.Y_plot, V4.Z_plot, 'DisplayName',...
             'Simulated Path UAV 3');
@@ -88,7 +114,7 @@ function plotTrajectory(V1,V2,V3,V4)
         elseif V4.vehicleType == "ASV" % plot marine vehicle
             
             % Desired Trajectory ASV 4
-            plotTrajectoryDesired(V4.ref, V4.ref.waypoints);  
+            plotTrajectoryDesired(V4.ref, V4.vehicleType, V4.ref.waypoints);  
             % Followed Trajectory ASV 4
             plot3(V4.X_plot, V4.Y_plot, zeros(1,length(V4.X_plot)), ...
                 'DisplayName', 'Simulated Path ASV 4');

@@ -6,6 +6,9 @@ clear all;
 close all;
 clc;
 
+global height
+height = -1;
+
 % constants
 complete = 1.0;
 

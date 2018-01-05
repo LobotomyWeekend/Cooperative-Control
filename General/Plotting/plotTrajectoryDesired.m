@@ -1,10 +1,16 @@
-function plotTrajectoryDesired(ref, waypoints)
+function plotTrajectoryDesired(ref, vehicle_class, waypoints)
 %% Plot the Desired Trajectory from ref struct
 % takes the common ref struct and plots the desired trajectory it implies
 % in 3D (useful for UAV analysis).
 
+if vehicle_class == "UAV"
+    height = -1;
+else
+    height = 0;
+end
+
 % Check if component path
-if nargin > 1
+if nargin > 2
     % store waypoints as
     for i = 1:(length(waypoints) - 2)
         % generate a ref struct of each component line
@@ -12,7 +18,7 @@ if nargin > 1
         ref_waypoint_i.start = waypoints(1:2,i);
         ref_waypoint_i.finish = waypoints(1:2,i+1);
         % plot each individually
-        plotTrajectoryDesired(ref_waypoint_i);
+        plotTrajectoryDesired(ref_waypoint_i, vehicle_class);
     end
     
     % Plot single component
@@ -75,7 +81,8 @@ else
     % Output Plot
     axis('equal');
     grid on;
-    plot3(ref_plot(1,:), ref_plot(2,:),zeros(1,length(ref_plot)), '--b');
+    plot3(ref_plot(1,:), ref_plot(2,:), height * ones(1,length(ref_plot)), '--b');
+    
 end
 
 end
