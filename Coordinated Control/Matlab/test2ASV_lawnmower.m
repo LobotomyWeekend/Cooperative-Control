@@ -41,6 +41,9 @@ vcorr = [0 0];
 ASV1 = ASV_variables(sim, ref1.start, yawInit, 1);
 ASV2 = ASV_variables(sim, ref2.start, yawInit, 2);
 
+ASV1.ref = ref1;
+ASV2.ref = ref2;
+
 %% Simulation
 for t = sim.time
     %% Update Reference, lawnmower
