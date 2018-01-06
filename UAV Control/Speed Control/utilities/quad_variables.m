@@ -123,54 +123,81 @@ function [UAV] = quad_variables(sim, vehicleID, initialPosition)
     UAV.U4_max = 2.25; % Quad.Kd*2*Quad.max_motor_speed^2
     UAV.U4_min = -2.25;% Quad.Kd*2*Quad.max_motor_speed^2
 
-    % PID parameters
-    UAV.X_KP = 2.5;          % KP value in X position control
-    UAV.X_KI = 0.5;            % KI value in X position control
-    UAV.X_KD = -0.10;         % KD value in X position control
-    UAV.X_KI_lim = 0.0;         % Error to start calculating integral term
+    %% Gain Values for PID Controllers
+    % KP : potential gain
+    % KI : integral gain
+    % KD : differential gain
+    
+    % Speed Control in X_dot
+    UAV.X_dot_KP = 2.5;
+    UAV.X_dot_KI = 0.5;
+    UAV.X_dot_KD = -0.10;
+    UAV.X_dot_KI_lim = 0.0; 
 
-    UAV.Y_KP = UAV.X_KP;          % KP value in Y position control
-    UAV.Y_KI = UAV.X_KI;            % KI value in Y position control
-    UAV.Y_KD = UAV.X_KD;         % KD value in Y position control
-    UAV.Y_KI_lim = UAV.X_KI_lim;         % Error to start calculating integral term
+    % Speed Control in Y_dot
+    % Set equal to above for convenience
+    UAV.Y_dot_KP = UAV.X_dot_KP;
+    UAV.Y_dot_KI = UAV.X_dot_KI;
+    UAV.Y_dot_KD = UAV.X_dot_KD;
+    UAV.Y_dot_KI_lim = UAV.X_dot_KI_lim;
+    
+    % Position Control in X
+    UAV.X_KP = 0.35;
+    UAV.X_KI = 0.25;
+    UAV.X_KD = -0.35;
+    UAV.X_KI_lim = 0;
+    
+    % Position Control in Y 
+    % Set equal to above for convenience
+    UAV.Y_KP = UAV.X_KP;
+    UAV.Y_KI = UAV.X_KI;
+    UAV.Y_KD = UAV.X_KD;
+    UAV.Y_KI_lim = UAV.X_KI_lim;
+    
+    % Altitude Control in Z
+    UAV.Z_KP = 10/1.7;
+    UAV.Z_KI = 0.3;
+    UAV.Z_KD = -10/1.980;
+    UAV.Z_KI_lim = .25;
 
-    UAV.Z_KP = 10/1.7;    % KP value in altitude control
-    UAV.Z_KI = 0.3;    % KI value in altitude control
-    UAV.Z_KD = -10/1.980;  % KD value in altitude control
-    UAV.Z_KI_lim = .25;         % Error to start calculating integral term
+    % Attitude Control in phi (roll)
+    UAV.phi_KP = 4.5;
+    UAV.phi_KI = 0;      
+    UAV.phi_KD = 0;
+    UAV.phi_max = pi/4;
+    UAV.phi_KI_lim = 2*(2*pi/360);
 
-    UAV.phi_KP = 4.5;      % KP value in roll control 2
-    UAV.phi_KI = 0;       % KI value in roll control   1        
-    UAV.phi_KD = 0;     % KD value in roll control  -.5
-    UAV.phi_max = pi/4;   % Maximum roll angle commanded
-    UAV.phi_KI_lim = 2*(2*pi/360);  % Error to start calculating integral 
+    % Attitude Control in theta (pitch)
+    UAV.theta_KP = 4.5;
+    UAV.theta_KI = 0;
+    UAV.theta_KD = 0;
+    UAV.theta_max = pi/4;
+    UAV.theta_KI_lim = 2*(2*pi/360);
 
-    UAV.theta_KP = 4.5;    % KP value in pitch control 2
-    UAV.theta_KI = 0;     % KI value in pitch control 1
-    UAV.theta_KD = 0;   % KD value in pitch control -.5
-    UAV.theta_max = pi/4; % Maximum pitch angle commanded
-    UAV.theta_KI_lim = 2*(2*pi/360);  % Error to start calculating integral 
+    % Attitude Control in psi (yaw)
+    UAV.psi_KP = 10;
+    UAV.psi_KI = 0;
+    UAV.psi_KD = 0;
+    UAV.psi_KI_lim = 8*(2*pi/360);
 
-    UAV.psi_KP = 10;     % KP value in yaw control
-    UAV.psi_KI = 0;     % KI value in yaw control .75
-    UAV.psi_KD = 0;     % KD value in yaw control -.5
-    UAV.psi_KI_lim = 8*(2*pi/360);  % Error to start calculating integral 
+    % Rotation Rate Control in p (roll)
+    UAV.p_KP = 2.7;
+    UAV.p_KI = 1;
+    UAV.p_KD = -.01;
+    UAV.p_max = 50*(2*pi/360);
+    UAV.p_KI_lim = 10*(2*pi/360);
 
-    UAV.p_KP = 2.7;    % KP value in pitch control 2
-    UAV.p_KI = 1;     % KI value in pitch control
-    UAV.p_KD = -.01;   % KD value in pitch control -.5
-    UAV.p_max = 50*(2*pi/360); % Maximum pitch angle commanded
-    UAV.p_KI_lim = 10*(2*pi/360);  % Error to start calculating integral 
+    % Rotation Rate Control in q (pitch)
+    UAV.q_KP = 2.7;
+    UAV.q_KI = 1;
+    UAV.q_KD = -.01;
+    UAV.q_max = 50*(2*pi/360);
+    UAV.q_KI_lim = 10*(2*pi/360);
 
-    UAV.q_KP = 2.7;    % KP value in pitch control
-    UAV.q_KI = 1;     % KI value in pitch control
-    UAV.q_KD = -.01;   % KD value in pitch control -.5
-    UAV.q_max = 50*(2*pi/360); % Maximum pitch angle commanded
-    UAV.q_KI_lim = 10*(2*pi/360);  % Error to start calculating integral 
-
-    UAV.r_KP = 2.7;    % KP value in pitch control
-    UAV.r_KI = 1;     % KI value in pitch control
-    UAV.r_KD = -.01;   % KD value in pitch control
-    UAV.r_max = 50*(2*pi/360); % Maximum pitch angle commanded
-    UAV.r_KI_lim = 10*(2*pi/360);  % Error to start calculating integral 
+    % Rotation Rate Control in r (yaw)
+    UAV.r_KP = 2.7;
+    UAV.r_KI = 1;
+    UAV.r_KD = -.01;
+    UAV.r_max = 50*(2*pi/360);
+    UAV.r_KI_lim = 10*(2*pi/360);
 end

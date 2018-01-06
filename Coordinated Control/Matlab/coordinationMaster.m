@@ -29,7 +29,7 @@ function [vcorr] = coordinationMaster(V1, V2, V3, V4)
             types = [V1.vehicleType, V2.vehicleType, V3.vehicleType];
             gamma = [V1.gamma, V2.gamma, V3.gamma];
         case 4 
-            types = [V1.vehicletype, V2.vehicleType, V3.vehicleType, V4.vehicleType];
+            types = [V1.vehicleType, V2.vehicleType, V3.vehicleType, V4.vehicleType];
             gamma = [V1.gamma, V2.gamma, V3.gamma, V4.gamma];
     end
     

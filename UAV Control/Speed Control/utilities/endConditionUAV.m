@@ -5,4 +5,5 @@ function UAV = endConditionUAV(UAV)
     if UAV.gamma >= 1 && UAV.counter > 100
         UAV.complete = 1;
     end
+   
 end

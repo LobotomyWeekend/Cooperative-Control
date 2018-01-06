@@ -39,12 +39,12 @@ function UAV = speed_PID(UAV)
     % error
     X_dot_error = X_dot_BF_des - X_dot_BF;
     % proportional
-    cp = UAV.X_KP * X_dot_error;
+    cp = UAV.X_dot_KP * X_dot_error;
     % integral
     X_dot_error_sum =  X_dot_error_sum + X_dot_error;
-    ci = UAV.X_KI * UAV.Ts * X_dot_error_sum;
+    ci = UAV.X_dot_KI * UAV.Ts * X_dot_error_sum;
     % differential
-    cd = UAV.X_KD * X_ddot_BF;
+    cd = UAV.X_dot_KD * X_ddot_BF;
     % desired pitch
     UAV.theta_des =  - (cp + ci + cd);   %Theta and X inversely related
     UAV.theta_des = min(UAV.theta_max, max(-UAV.theta_max, UAV.theta_des));
@@ -53,12 +53,12 @@ function UAV = speed_PID(UAV)
     % error
     Y_dot_error = Y_dot_BF_des - Y_dot_BF;
     % proportional
-    cp = UAV.Y_KP * Y_dot_error;    
+    cp = UAV.Y_dot_KP * Y_dot_error;    
     % integral
     Y_dot_error_sum =  Y_dot_error_sum + Y_dot_error;
-    ci = UAV.Y_KI * UAV.Ts * Y_dot_error_sum;    
+    ci = UAV.Y_dot_KI * UAV.Ts * Y_dot_error_sum;    
     % differential
-    cd = UAV.Y_KD * Y_ddot_BF;    
+    cd = UAV.Y_dot_KD * Y_ddot_BF;    
     % desired roll
     UAV.phi_des = cp + ci + cd; 
     UAV.phi_des = min(UAV.phi_max, max(-UAV.phi_max, UAV.phi_des));
