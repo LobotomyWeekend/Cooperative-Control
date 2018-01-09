@@ -133,7 +133,7 @@ end
 % trajectory
 plotTrajectory(UAV1, UAV2, UAV3, UAV4);
 % coordination state
-plotCoordination(UAV1, UAV2, UAV4);
+plotCoordination(UAV1, UAV2, UAV3, UAV4);
 % cross track error
 plotCrossTrackError(UAV1, UAV2, UAV3, UAV4);
 % plot vcorr hist

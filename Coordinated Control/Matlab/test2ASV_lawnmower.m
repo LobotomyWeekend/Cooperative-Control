@@ -7,11 +7,11 @@ clc;
 %% Simulation Inputs
 % time
 sim.Ts   = 0.1;
-sim.Tend = 60*20;
+sim.Tend = 60;
 sim.time = 0:sim.Ts:sim.Tend;
 
 % waypoints
-length_line = 100;
+length_line = 10;
 diameter_arc_min = 25;
 offset = 5;
 segments = 17;

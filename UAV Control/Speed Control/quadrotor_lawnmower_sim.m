@@ -10,7 +10,7 @@ vCorr = 0.0;
 
 %% Simulation inputs
 sim.Ts = 0.01;
-sim.Tend = 160;
+sim.Tend = 540;
 
 %% Path Variables & References
 % waypoints
@@ -58,13 +58,5 @@ plotTrajectory(UAV);
 plotCoordination(UAV);
 % cross track error
 plotCrossTrackError(UAV);
-
-%% TEST
-figure('Name','Heading');
-hold on
-plot(UAV.t_plot, UAV.heading_ref_plot, '--');
-plot(UAV.t_plot, UAV.heading_plot);
-hold off
-
 
 clc

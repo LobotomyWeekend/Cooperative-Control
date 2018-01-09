@@ -88,7 +88,7 @@ function [UAV] = quad_variables(sim, vehicleID, initialPosition)
     % Desired variables
     UAV.X_des_GF = 1;         % desired value of X in Global frame
     UAV.Y_des_GF = 1;         % desired value of Y in Global frame
-    UAV.Z_des_GF = 1;         % desired value of Z in Global frame
+    UAV.Z_des_GF = 10;         % desired value of Z in Global frame
     UAV.X_des = 0;            % desired value of X in Body frame
     UAV.Y_des = 0;            % desired value of Y in Body frame
     UAV.Z_des = 0;            % desired value of Z in Body frame

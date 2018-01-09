@@ -4,7 +4,7 @@ function plotTrajectoryDesired(ref, vehicle_class, waypoints)
 % in 3D (useful for UAV analysis).
 
 if vehicle_class == "UAV"
-    height = -1;
+    height = -10;
 else
     height = 0;
 end

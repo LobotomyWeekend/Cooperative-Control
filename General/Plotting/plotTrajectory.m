@@ -8,33 +8,6 @@ function plotTrajectory(V1,V2,V3,V4)
     hold on;
     grid on;
     
-%     % Axis lengths
-%     % append waypoints
-%     if nargin == 1
-%         wp = [V1.ref.waypoints];
-%     elseif nargin == 2
-%         wp = [V1.ref.waypoints,V2.ref.waypoints];
-%     elseif nargin == 3
-%         wp = [V1.ref.waypoints,V2.ref.waypoints,V3.ref.waypoints];
-%     elseif nargin == 4
-%         wp = [V1.ref.waypoints,V2.ref.waypoints,V3.ref.waypoints,V4.ref.waypoints];
-%     end
-%     
-%     x_min = min(wp(1,:));
-%     x_max = max(wp(1,:));
-%     if x_min == x_max
-%         x_max = x_min + 10;
-%     end
-%     y_min = min(wp(2,:));
-%     y_max = max(wp(2,:));
-%     if y_min == y_max
-%         y_max = y_min + 10;
-%     end
-%     
-%     axis([x_min x_max y_min y_max -10 10])
-%     view(3)
-    
-    
     %% Plot Vehicle 1
     if V1.vehicleType == "UAV" % Plot Quadcopter
         
