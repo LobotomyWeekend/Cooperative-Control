@@ -1,7 +1,8 @@
-%% THRUST OF ONE THRUSTER WITH GIVEN RPM
 function F = singleThruster(RPM, ASV, j)
 %% Function to simulate the behavior of a Medusa Thruster.
-% Model taken from previous work carried out by students at ISR based on
+% A control value in RPM is provided, ASV is used for time and counter
+% calculations, j represents starboard or portside thrusters.
+% Model taken from previous work carried out by Jorge Ribeiro at ISR based on
 % experimental results.
 % A transfer function is applied, this takes the previous up to 100 time steps
 % of RPM as inputs.

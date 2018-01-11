@@ -65,13 +65,13 @@ hold on
 % Force History
 subplot(2,1,1);
 plot(sim.time, Force_Hist);
-xlabel('time (s)');
-ylabel('force (N)');
+xlabel('Time (s)');
+ylabel('Force (N)');
 legend('Resultant Force (N)');
 
 % Rererence
 subplot(2,1,2);
 plot(sim.time, Ref_Hist, '--');
-xlabel('time (s)');
-ylabel('(%)');
+xlabel('Time (s)');
+ylabel('RPM (%)');
 legend('Reference (%)');

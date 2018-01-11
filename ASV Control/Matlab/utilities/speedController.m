@@ -1,5 +1,8 @@
-%% Speed Controller
 function ASV = speedController(ASV, uRef)
+    %% Speed Controller
+    % generates an error value in absolute velocity of the vehicle, and
+    % provides control values to the thrusters 
+    
     % Gain Values
     Kp = 60;
     Ki = 2;

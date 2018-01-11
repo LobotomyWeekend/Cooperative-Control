@@ -1,6 +1,7 @@
-%% VEHICLE DYNAMICS
+%% ASV DYNAMICS + KINEMATICS
 % Outputs the differential of the state
 % Takes inputs as overall thrust, and torque of motors
+
 function [ASV] = vehicleDynamics(ASV)
 %% Assumptions
 ASV.Z_dot = 0;      % always on water surface

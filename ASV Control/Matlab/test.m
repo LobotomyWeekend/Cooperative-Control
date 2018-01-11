@@ -1,7 +1,8 @@
 %% TESTING ASV INNER LOOP
-% function which mimics the behaviour of the simulink model
-% i.e. can be placed inside a time loop with ref values changed
-% dynamically.
+% test the inner loop of the ASV withut applying any path following or
+% cooperative controllers. A stepped input is provided to uRef, response
+% and reference are plotted.
+
 clear all;
 close all;
 clc
@@ -71,12 +72,13 @@ for t = sim.time
     i = i+1;
 end
 %% Plotting
+% plot velocity response of the ASV
 hold on
 grid on;
 title('Velocity Response ASV');
 plot(sim.time, uRefHist, '--');
 plot(sim.time, uHist);
-xlabel('time(s)');
-ylabel('Velocity (m/s)');
+xlabel('Time(s)');
+ylabel('Velocity (m s^{-1))');
 legend('Velocity Ref', 'ASV Velocity');
 hold off

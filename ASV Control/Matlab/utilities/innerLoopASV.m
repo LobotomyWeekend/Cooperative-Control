@@ -1,12 +1,10 @@
-
-%% ASV INNER LOOP
-% Distance in metres
-% Angles in Radians
-% Time in seconds
-
-%% INNER LOOP FUNCTION
 function ASV = innerLoopASV(ref, ASV)
-    %% CONTROLLERS
+%% ASV INNER LOOP
+% Takes references in speed and heading provided by outer loop controllers,
+% and commands the states, and calculates the response, of the vehicle
+% This should be called each simulation loop
+
+    %% STATE CONTROLLERS
     % Heading Controller
     ASV = headingController(ref.yawRef, ASV);
     % Speed Controller
@@ -22,4 +20,4 @@ function ASV = innerLoopASV(ref, ASV)
     % Update the state variables
     ASV = estimateState(ASV);
 
-end % inner loop function
+end

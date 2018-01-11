@@ -1,5 +1,9 @@
-%% CALCULATE THRUST AND MOMENT CAUSED BY THRUSTER PAIR
 function ASV = thrusters(ASV)
+    %% Control of both thrusters
+    % takes RPM values provided by motor controller and calculates response
+    % of the thrusters individually. Resultant force and moment is provided
+    % to the vehicle dynamics
+    
     % dist between motors
     l = 0.25;
     

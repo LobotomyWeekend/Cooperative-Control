@@ -1,5 +1,7 @@
 %% Finding ASV minimum arc diameter
-% The actuators of the vehicle can only achieve a certain turn rate, which 
+% The actuators of the vehicle can only achieve a certain turn rate, which
+% needs to be found, this simulation provides the vehicle with
+% incrementally reducing turn diameters, and plots results.
 
 clear all;
 close all;
@@ -15,7 +17,7 @@ sim.Tend = 150;
 sim.time = 0:sim.Ts:sim.Tend;
 
 dmax = 20;
-inc = 5/2; % incremental radius change
+inc = 5/2; % incremental diameter change
 
 % reference vehicle 1 [d(arc) = 20]
 ref.pathType = 2;
@@ -26,21 +28,21 @@ ref.uRefNominal = 0.5;
 
 % reference vehicle 2 [d(arc) = 75]
 ref2.pathType = 2;
-ref2.start = [inc;0];
+ref2.start = [0;0];
 ref2.finish = [dmax - inc;0];
 ref2.uRef = 0.5;
 ref2.uRefNominal = 0.5;
 
 % reference vehicle 3 [d(arc) = 50]
 ref3.pathType = 2;
-ref3.start = [2*inc;0];
+ref3.start = [0;0];
 ref3.finish = [dmax - 2*inc;0];
 ref3.uRef = 0.5;
 ref3.uRefNominal = 0.5;
 
 % reference vehicle 4 [d(arc) = 25]
 ref4.pathType = 2;
-ref4.start = [3*inc; 0];
+ref4.start = [0; 0];
 ref4.finish = [dmax - 3*inc; 0];
 ref4.uRef = 0.5;
 ref4.uRefNominal = 0.5;

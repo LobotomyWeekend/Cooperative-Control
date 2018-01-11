@@ -2,9 +2,8 @@
 % The simulation can be varied using the Simulation Inputs, then the
 % simulation is run by looping over time and using the path following
 % controllers. 
-% The file will also display plots of trajectory, internal
-% command history, cross track error, and coordination states.
-
+% The file will also display plots of trajectory, and cross track error
+% over time.
 clear all;
 close all;
 clc;

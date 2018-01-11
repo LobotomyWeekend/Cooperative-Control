@@ -30,18 +30,24 @@ function [yawRef, ASV] = straightLinePath(ASV, ref)
     % absolute value of error
     crossTrack = sqrt((xD - ASV.X)^2 + (yD - ASV.Y)^2);
 
-    % Clockwise from path in defined as negative crossTrack error
+    % Clockwise from path is defined as negative crossTrack error, i.e. yaw
+    % needs to be INCREASED
     
+    % Check whether line with infinite gradient x = const is supplied, and
+    % correct for singularities in equations used.
     if abs(m) ~= Inf % standard case
         path = m*ASV.X + c;
+        
+        % +ve or -ve cross track
         if ASV.Y < path
             crossTrack = - crossTrack;
         end
-        
-    elseif m == Inf && ASV.X > ref.start(1,1) % upwards path
+    % upwards path x {G} = const, y_dot {G} = +ve    
+    elseif m == Inf && ASV.X > ref.start(1,1) 
         crossTrack = - crossTrack;
-        
-    elseif m == -Inf && ASV.X < ref.start(1,1) % downwards path
+    
+    % downawrds path x {G} = const, y_dot {G} = -ve    
+    elseif m == -Inf && ASV.X < ref.start(1,1)
         crossTrack = - crossTrack;
     end
 

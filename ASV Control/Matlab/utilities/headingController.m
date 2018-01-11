@@ -1,6 +1,9 @@
-%% HEADING CONTROLER
-% Takes current yaw and yaw rate, attempts to achive yawRef
+
 function ASV = headingController(yawRef, ASV)
+%% HEADING CONTROLER
+% Takes current yaw and yaw rate, attempts to achive a desired yaw
+% condition by supplying a yawRef to the thruster controllers 
+
 % Gain Values
 Kp = 1500;
 Kd = -1000;

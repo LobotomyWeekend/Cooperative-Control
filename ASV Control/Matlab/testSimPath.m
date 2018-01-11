@@ -1,9 +1,12 @@
 %% Testing ASV Path Following
+% This simulation is intended for testing the path following algorithm of
+% the ASV. Only one vehicle is simulated, and only single path sections are
+% supported.
 % The simulation can be varied using the Simulation Inputs, then the
 % simulation is run by looping over time and using the path following
 % controllers. 
-% The file will also display plots of trajectory, internal
-% command history, cross track error, and coordination states.
+% The file will also display plots of trajectory, and coordination states
+% over time.
 
 clear all;
 close all;
