@@ -14,36 +14,37 @@ sim.Ts   = 0.1;
 sim.Tend = 150;
 sim.time = 0:sim.Ts:sim.Tend;
 
-dmax = 20;
-inc = 5/2; % incremental radius change
-
 % reference vehicle 1 [d(arc) = 20]
 ref.pathType = 2;
 ref.start = [0;0];
-ref.finish = [dmax;0];
+ref.finish = [16;0];
 ref.uRef = 0.5;
 ref.uRefNominal = 0.5;
+ref.waypoints = ref_waypoints(ref);
 
-% reference vehicle 2 [d(arc) = 75]
+% reference vehicle 2 [d(arc) = 15]
 ref2.pathType = 2;
-ref2.start = [inc;0];
-ref2.finish = [dmax - inc;0];
+ref2.start = [0;0];
+ref2.finish = [12;0];
 ref2.uRef = 0.5;
 ref2.uRefNominal = 0.5;
+ref2.waypoints = ref_waypoints(ref2);
 
-% reference vehicle 3 [d(arc) = 50]
+% reference vehicle 3 [d(arc) = 10]
 ref3.pathType = 2;
-ref3.start = [2*inc;0];
-ref3.finish = [dmax - 2*inc;0];
+ref3.start = [0;0];
+ref3.finish = [8;0];
 ref3.uRef = 0.5;
 ref3.uRefNominal = 0.5;
+ref3.waypoints = ref_waypoints(ref3);
 
-% reference vehicle 4 [d(arc) = 25]
+% reference vehicle 4 [d(arc) = 5]
 ref4.pathType = 2;
-ref4.start = [3*inc; 0];
-ref4.finish = [dmax - 3*inc; 0];
+ref4.start = [0; 0];
+ref4.finish = [4; 0];
 ref4.uRef = 0.5;
 ref4.uRefNominal = 0.5;
+ref4.waypoints = ref_waypoints(ref4);
 
 % initial yaw value
 yawInit = 90; 
@@ -54,6 +55,11 @@ ASV1 = ASV_variables(sim, ref.start, yawInit, 1);
 ASV2 = ASV_variables(sim, ref2.start, yawInit, 2);
 ASV3 = ASV_variables(sim, ref3.start, yawInit, 3);
 ASV4 = ASV_variables(sim, ref4.start, yawInit, 4);
+
+ASV1.ref = ref;
+ASV2.ref = ref2;
+ASV3.ref = ref3;
+ASV4.ref = ref4;
 
 %% Simulation
 for t = sim.time    
