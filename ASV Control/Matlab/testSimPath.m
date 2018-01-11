@@ -15,18 +15,18 @@ section = 0;
 %% Simulation Inputs
 % time
 sim.Ts   = 0.01;
-sim.Tend = 60;
+sim.Tend = 157.7;
 sim.time = 0:sim.Ts:sim.Tend;
 
 % waypoints
 ref.pathType = 2;
 ref.start = [0;0];
-ref.finish = [20;0];
+ref.finish = [25;0];
 ref.waypoints = ref_waypoints(ref);
 
 % constant speed reference
-ref.uRef = 0.5;
-ref.uRefNominal = 0.5;
+ref.uRef = 0.25;
+ref.uRefNominal = 0.25;
 
 % initial yaw value
 yawInit = 90; 

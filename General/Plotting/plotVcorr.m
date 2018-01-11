@@ -3,7 +3,7 @@ function plotVcorr(vcorr_hist, time)
     
     % find number of vehicles
     dimensions = size(vcorr_hist);
-    no_vehicles = dimensions(1,1);
+    no_vehicles = dimensions(1,2);
     
     % setup plot
     figure('Name','Correction Velocities');
@@ -12,10 +12,11 @@ function plotVcorr(vcorr_hist, time)
     xlabel ('Time (s)');
     ylabel ('v_{corr}');
     title('Correction Velocities versus Time');
+    legend('Show');
     
     % loop over vehicle and plot
     for i = 1:no_vehicles
-        plot(time, vcorr_hist(i,:));
+        plot(time, vcorr_hist(:,i));
     end
     
     hold off

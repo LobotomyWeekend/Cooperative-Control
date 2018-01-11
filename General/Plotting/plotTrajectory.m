@@ -97,9 +97,10 @@ function plotTrajectory(V1,V2,V3,V4)
     
     
     %% Formatting
-    xlabel('x (m)');
-    ylabel('y (m)');
-    zlabel('z (m)');
+    title('Trajectory');
+    xlabel('X^{G} (m)');
+    ylabel('Y^{G} (m)');
+    zlabel('Z^{G} (m)');
     legend('show');
     hold off;
     
