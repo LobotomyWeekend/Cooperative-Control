@@ -38,8 +38,9 @@ if nargin >= 4
 end
 
 %% Formatting
-xlabel('time (s)')
-ylabel('cross track error (m)');
+xlabel('Time (s)')
+ylabel('Cross Track Error (m)');
+title('Cross Track Error v. Time');
 legend('show');
 hold off;
 

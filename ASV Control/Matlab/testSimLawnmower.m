@@ -13,20 +13,20 @@ complete = 1;
 
 %% Simulation Inputs
 % time
-sim.Ts   = 0.01;
-sim.Tend = 375;
+sim.Ts   = 0.1;
+sim.Tend = 540;
 sim.time = 0:sim.Ts:sim.Tend;
 
 % waypoints
 length_line = 25;
-diameter_arc = 15;
+diameter_arc = 25;
 segments = 5;
 
 [wayPoints, ref] = waypointsLawnmower(length_line, diameter_arc, segments);
 
 % constant speed reference
-ref.uRef = 1;
-ref.uRefNominal = 0.99;
+ref.uRef = 0.25;
+ref.uRefNominal = 0.25;
 ref.waypoints = wayPoints;
 
 % initial yaw value
@@ -58,8 +58,6 @@ disp('Finishing Up...');
 
 %% Plotting
 plotTrajectory(ASV1);
-plotCoordination(ASV1);
 plotCrossTrackError(ASV1);
 
 clc
-beep
