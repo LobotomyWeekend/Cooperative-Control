@@ -9,7 +9,7 @@ clc;
 
 %% Simulation time
 sim.Ts = 0.01;
-sim.Tend = 20;s
+sim.Tend = 20;
 sim.time = 0:sim.Ts:sim.Tend;
 
 %% Initialize Vehicle
@@ -58,6 +58,6 @@ disp('Finishing Up...');
 % % rot rate reference and response
 % plotRotationRate(UAV)
 % position referece and repsonse
-plotPosition(UAV);
+% plotPosition(UAV);
 
 clc;

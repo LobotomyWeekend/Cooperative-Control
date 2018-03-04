@@ -9,7 +9,7 @@ clc
 
 %% Simulation Inputs
 % time
-sim.Ts   = 0.1;
+sim.Ts   = 0.01;
 sim.Tend = 60;
 sim.time = 0:sim.Ts:sim.Tend;
 
@@ -23,12 +23,20 @@ ref.uRef = 0;
 ref.yawRef = 0;
 ref.waypoints = ref_waypoints(ref);
 
-%% Initialize Vehicles
+%% Initialize ASV
 % initial yaw value
 yawInit = 0; 
 % establish structure
 ASV1 = ASV_variables(sim, ref.start, yawInit, 1);
 ASV1.ref = ref;
+
+%% Initialize UAV
+start = [0;0];
+UAV = quad_variables(sim,start);
+UAV.X_des_GF = 0;
+UAV.Y_des_GF = 0;
+UAV = quad_dynamics_nonlinear(UAV);
+UAV.ref = ref;
 
 %% Constants
 complete = 1;
@@ -41,6 +49,7 @@ uHist = uRefHist;
 %% Simulation
 i = 1;
 for t = sim.time
+    displayProgress(UAV);
     %% Calculate References
     % Stepping yawRef
     if ~mod(t,25)
@@ -79,6 +88,6 @@ title('Velocity Response ASV');
 plot(sim.time, uRefHist, '--');
 plot(sim.time, uHist);
 xlabel('Time(s)');
-ylabel('Velocity (m s^{-1))');
+ylabel('Velocity (m s^{-1})');
 legend('Velocity Ref', 'ASV Velocity');
 hold off
