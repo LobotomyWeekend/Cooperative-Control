@@ -1,30 +1,41 @@
 # Cooperative Control of ASVs and UAVs
 
-Software developed for my Masters Project at the Institute for Systems and Robotics (ISR), Lisbon, Portugal.
+Software developed in the Autumn semester of 2017 for my Masters Project at the [Institute for Systems and Robotics](http://welcome.isr.tecnico.ulisboa.pt/) (ISR), Lisbon, Portugal. My thesis is entitled 'Cooperative Motion Control of Quadcopters and Autonomous Surface Vehicles'.
 
-Contained is a control system (in development) for a network of autonomous marine and aerial vehicles, which act in cooperation with one another. Specifically these vehicles are the [MEDUSA](http://dsor.isr.ist.utl.pt/vehicles/medusa/) and a (more general) Quadcopter drone. 
+The final report for this project is avaliable [here](https://github.com/LobotomyWeekend/Cooperative-Control/blob/master/Documentation/final_report.pdf).
 
-![Mission scenario](https://github.com/LobotomyWeekend/Cooperative-Control/blob/master/Documentation/proposed_scenario.png)
+Contained within this repository are scripts for the simulation and control of a network of autonomous marine and aerial vehicles, which act in cooperation with one another. Specifically these vehicles are the semi-submersibe [MEDUSA](http://dsor.isr.ist.utl.pt/vehicles/medusa/) and a (more generalised) Quadcopter drone. 
 
 The applications for this system are in data collection in a marine environment; geospatial surveys, tracking of wildlife, cinematography. Further work is currently being carried out at ISR and other European institutions in the field of autonomous marine and aerial vehicles working in cooperation.
 
+![Mission scenario](https://github.com/LobotomyWeekend/Cooperative-Control/blob/master/Documentation/proposed_scenario.png)
+
 ## Getting Started
 
-The files are broken down into "ASV Control" (Autonomous Surface Vehicle), "UAV Control" (Unmanned Aerial Vehicle), "Coordinated Control", and "General". The first three are of particular note; they contain the structures for simulations, as well as the control algorithms, and system dynamics involved. The latter contains some data processing and plotting function which are of general use. 
+The files are broken down into "ASV Control" (Autonomous Surface Vehicle), "Quadcopter Control", "Coordinated Control", and "General".
+"ASV Control" contains the code required to simulate and control the Medusa, including functions for vehicle dynamics and kinematics, and prepared simulations for various mission scenarios. "Quadcopter Control" is similar to ASV control, the structure of these two vehicle simulations has been kept similar where possible.
 
-All software is available as Matlab code. The ASV also has a stable Simulink model, although no such model has been produces for the UAV.
+"General" contains data processing and plotting functions which are common to all vehicle types. "Coordinated Control" contains the cooperative controller, and prepared simulations which include more than one vehicle.
 
-Simulations for any combination of vehicles can be run, currently this is only stable up to around 4 vehicles [14/12/2017]. The general structure for these simulations is best seen in ```/Coordinatied Control/Matlab/test1UAV1ASV.m```. I have tried to keep the comments useful and up to date but this is still a work in progress.
+All software is available as Matlab code. The ASV also has a stable Simulink model, although no such model has been produced for the UAV.
+
+Simulations for any combination of vehicles can be run, currently this is only stable up to around 4 vehicles [14/12/2017]. The general structure for these simulations is best seen in ```/Coordinatied Control/Matlab/test1UAV1ASV.m```. I have tried to keep the comments up to date for readability.
+
+Any questions regarding the code, feel free to contact me on ```mattcole @ protonmail.com```.
 
 ### Prerequisites
 * [Matlab R2017a](https://www.mathworks.com/downloads/web_downloads/get_release)
 * [Simulink] (Optional)
 
-### Installing
+### Installation
 
 To run simulations all files should be added to the path, this can be done in the Matlab command line:
 ```
-addpath('ASV Control','Coordinated Control','UAV Control','General' -end);
+addpath('ASV Control','Coordinated Control','Quadcopter Control','General' -end);
+```
+To test all features, run a cooperative simulation involving the ASV and Quadcopter. You should recieve plots of a lawnmower trajectory, cross track error in time, and correction velocity in time.
+```
+test1UAV1ASV
 ```
 
 ## Acknowledgments
