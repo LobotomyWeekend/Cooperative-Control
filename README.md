@@ -1,5 +1,7 @@
 # Cooperative Control of ASVs and UAVs
 
+![Medusa vehicle](https://i1.wp.com/dsor.isr.ist.utl.pt/wp-content/uploads/2014/09/medusa_sesimbra.png?w=1263)
+
 Software developed in the Autumn semester of 2017 for my Masters Project at the [Institute for Systems and Robotics](http://welcome.isr.tecnico.ulisboa.pt/) (ISR), Lisbon, Portugal. My thesis is entitled 'Cooperative Motion Control of Quadcopters and Autonomous Surface Vehicles'.
 
 The final report for this project is avaliable [here](https://github.com/LobotomyWeekend/Cooperative-Control/blob/master/Documentation/final_report.pdf).
