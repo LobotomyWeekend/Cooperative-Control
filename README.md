@@ -4,6 +4,8 @@ Software developed for my Masters Project at the Institute for Systems and Robot
 
 Contained is a control system (in development) for a network of autonomous marine and aerial vehicles, which act in cooperation with one another. Specifically these vehicles are the [MEDUSA](http://dsor.isr.ist.utl.pt/vehicles/medusa/) and a (more general) Quadcopter drone. 
 
+![Mission scenario](https://github.com/LobotomyWeekend/Cooperative-Control/blob/master/Documentation/proposed_scenario.png)
+
 The applications for this system are in data collection in a marine environment; geospatial surveys, tracking of wildlife, cinematography. Further work is currently being carried out at ISR and other European institutions in the field of autonomous marine and aerial vehicles working in cooperation.
 
 ## Getting Started
